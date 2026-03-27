@@ -11,6 +11,7 @@ import { useScrollTop } from "@/hooks/use-scroll-top";
 import { cn } from "@/lib/utils"
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { Logo } from "@/components/logo";
 
 export default function Navbar() {
   const scrolled = useScrollTop();
@@ -41,11 +42,11 @@ export default function Navbar() {
 
   return (
     <div className={cn(
-      "fixed w-full border-b border-gray-800 bg-[#0F1115]",
+      "fixed w-full border-b border-gray-800 bg-[#0F1115] z-9999",
       scrolled && "border-b shadow-sm"
     )}>
-      <div className="grid grid-cols-3">
-        <img src="../src/assets/logo.png" alt="Logo" className="h-20 w-20 flex ml-12" />
+      <div className="grid grid-cols-3 pl-10">
+        <Logo />
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>

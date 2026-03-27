@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -14,6 +12,7 @@ import { cn } from "@/lib/utils";
 
 import ActionButton from "./_components/action-button";
 import { Link } from "react-router-dom";
+import { Logo } from "@/components/logo";
 
 export default function Navbar() {
   const scrolled = useScrollTop();
@@ -21,18 +20,14 @@ export default function Navbar() {
   return (
     <div
       className={cn(
-        "fixed w-full border-b border-gray-800 bg-[#0F1115]",
+        "fixed w-full border-b border-gray-800 bg-[#0F1115] z-9999",
         scrolled && "border-b shadow-sm"
       )}
     >
       <div className="flex flex-row items-center justify-between px-20">
         
         {/* Logo */}
-        <img
-          src="../src/assets/logo.png"
-          alt="Logo"
-          className="h-20 w-20 flex"
-        />
+        <Logo />
         {/* Navigation Menu */}
         <NavigationMenu>
           <NavigationMenuList>

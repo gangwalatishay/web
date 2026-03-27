@@ -1,4 +1,4 @@
-import Sliderimg1 from "@/../assets/slider/slider1.jpg";
+import Sliderimg1 from "@/assets/slider/slider1.jpg";
 import Sliderimg2 from "@/assets/slider/slider2.jpg";
 import Sliderimg3 from "@/assets/slider/slider3.jpg";
 import Sliderimg4 from "@/assets/slider/slider4.jpg";
@@ -17,7 +17,8 @@ export default function Slider() {
         width: "100%",
         aspectRatio: "7 / 2",
         margin: "0 auto",
-      }}>
+      }}
+    >
       <ImageSlider imageUrls={IMAGES} />
     </div>
   )
