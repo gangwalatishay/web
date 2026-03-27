@@ -1,4 +1,7 @@
-import { Route, Routes } from "react-router-dom";
+import {
+  Route,
+  Routes
+} from "react-router-dom";
 
 import Page from "./app/page";
 import Courses from "./app/menu-items/courses/courses";

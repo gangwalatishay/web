@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import { SlUser } from "react-icons/sl";
 import { TbLogout } from "react-icons/tb";
@@ -27,12 +28,25 @@ type User = {
 const ActionButton = () => {
   const navigate = useNavigate();
 
-  const isAuthenticated = true;
-  const user: User | null = {
-    name: "John Doe",
-    email: "john@example.com",
-    role: "admin",
-  };
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const checkAuth = () => {
+      const token = localStorage.getItem("token");
+      const storedUser = JSON.parse(localStorage.getItem("currentUser") || "null");
+
+      setIsAuthenticated(!!token);
+      setUser(storedUser);
+    };
+
+    checkAuth();
+
+    // Optional: listen to storage changes (better than setInterval)
+    window.addEventListener("storage", checkAuth);
+
+    return () => window.removeEventListener("storage", checkAuth);
+  }, []);
 
   const isAdmin = user?.role === "admin";
 
@@ -46,6 +60,11 @@ const ActionButton = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("currentUser");
+
+    setIsAuthenticated(false);
+    setUser(null);
+
     navigate("/");
   };
 
