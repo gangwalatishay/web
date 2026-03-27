@@ -72,7 +72,7 @@ const ActionButton = () => {
     <div>
       {/* Not logged in */}
       {!isAuthenticated && (
-        <Button className="bg-[#FF8D28] text-white hover:bg-[#FF8D28]/90 w-30 text-xl">
+        <Button asChild className="bg-[#3B82F6] text-white hover:bg-[#2563EB]/90 w-30 text-xl">
           <Link to="/login">Login</Link>
         </Button>
       )}
@@ -82,10 +82,10 @@ const ActionButton = () => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <div className="relative cursor-pointer">
-              <SlUser className="h-8 w-8 text-[#FF8D28]" />
+              <SlUser className="h-8 w-8 text-[#3B82F6]" />
 
               {isAdmin && (
-                <RiVipCrownLine className="absolute -top-2 -right-2 size-3.5 text-yellow-400" />
+                <RiVipCrownLine className="absolute -top-2 -right-2 size-3.5 text-[#3B82F6]" />
               )}
             </div>
           </DropdownMenuTrigger>
@@ -98,7 +98,7 @@ const ActionButton = () => {
               <p className="text-zinc-500 text-xs truncate">{user.email}</p>
 
               {isAdmin && (
-                <span className="text-xs text-yellow-400 font-medium">
+                <span className="text-xs text-[#3B82F6] font-medium">
                   ⚡ Admin
                 </span>
               )}
@@ -111,7 +111,7 @@ const ActionButton = () => {
               >
                 {isAdmin ? (
                   <>
-                    <MdAdminPanelSettings className="size-5 text-[#FF8D28]" />
+                    <MdAdminPanelSettings className="size-5 text-[#3B82F6]" />
                     Admin Panel
                   </>
                 ) : (
@@ -123,7 +123,7 @@ const ActionButton = () => {
               </DropdownMenuItem>
 
               <DropdownMenuItem className="flex items-center gap-2 cursor-pointer text-zinc-300 hover:text-white focus:text-white focus:bg-zinc-800 rounded-lg">
-                <RiVipCrownLine className="size-5 text-yellow-400" />
+                <RiVipCrownLine className="size-5 text-[#3B82F6]" />
                 Subscription
               </DropdownMenuItem>
 
