@@ -8,9 +8,9 @@ import Courses from "./app/menu-items/courses/courses";
 import Gallery from "./app/menu-items/gallery/gallerypage";
 import ProfilePage from "./app/profile/page";
 import CourseDetail from "./app/menu-items/courses/course-detail";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import ForgotPassword from "./pages/ForgotPassword";
+import Login from "./auth/Login";
+import Signup from "./auth/Signup";
+import ForgotPassword from "./auth/ForgotPassword";
 
 export default function App() {
   return (
