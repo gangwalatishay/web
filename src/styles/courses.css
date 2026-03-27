@@ -1,0 +1,141 @@
+.coursespage .card
+{
+  position: relative;
+  width: 320px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.coursespage .card .imgBx
+{
+  position: relative;
+  width: 100%;
+  height: 240px;
+  background: #f00;
+  border-radius: 15px;
+  /* background: url('../assets/courses/courses1.jpg'); */
+  background-size: cover;
+  background-position: center;
+}
+.coursespage .card .imgBx::before
+{
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  box-shadow: -10px 10px 0 #0F1115;
+}
+.coursespage .card .imgBx::after
+{
+  content: '';
+  position: absolute;
+  bottom: 70px;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  box-shadow: -10px 10px 0 #0F1115;
+}
+.coursespage .card .content
+{
+  position: relative;
+  width: 100%;
+  height: 150px;
+  background: #232949;
+  border-radius: 15px;
+  border-top-left-radius: 0;
+  padding: 0 35px;
+}
+.coursespage .card .content ul
+{
+  color: #fff;
+}
+.coursespage .card .content .price
+{
+  position: absolute;
+  top: -80px;
+  left: 0;
+  height: 80px;
+  width: 50%;
+  background: #232949;
+  border-top: 10px solid #0F1115;
+  border-right: 10px solid #0F1115;
+  border-top-right-radius: 25px;
+}
+.coursespage .card .content .price::before
+{
+  content: '';
+  position: absolute;
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  box-shadow: -10px -10px 0 #0F1115;
+}
+.coursespage .card .content .price::after
+{
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: -25px;
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  box-shadow: -10px 10px 0 #232949;
+}
+.coursespage .card .content .price a
+{
+  position: relative;
+  background: #fff;
+  padding: 10px 20px;
+  margin: 15px 15px;
+  display: block;
+  border-radius: 7px;
+  color: #333;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.coursespage .card .content ul
+{
+  position: relative;
+  top: 10px;
+  font-weight: 300;
+}
+
+.coursespage .img-slider-img::before,
+.coursespage .img-slider-img::after
+{
+  box-sizing: border-box;
+}
+.coursespage .img-slider-img
+{
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.coursespage .img-slider-btn
+{
+  all: unset;
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  padding: 1rem;
+  cursor: pointer;
+  transition: background-color 100ms ease-in-out;
+}
+.coursespage .img-slider-btn:hover
+{
+  background-color: rgb(0, 0, 0.2);
+}
+.coursespage .img-slider-btn > * 
+{
+  stroke: white;
+  width: 2rem;
+  height: 2rem;
+}
