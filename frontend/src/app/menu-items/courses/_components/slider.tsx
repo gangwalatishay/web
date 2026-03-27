@@ -1,4 +1,4 @@
-import Sliderimg1 from "@/assets/slider/slider1.jpg";
+import Sliderimg1 from "@/../assets/slider/slider1.jpg";
 import Sliderimg2 from "@/assets/slider/slider2.jpg";
 import Sliderimg3 from "@/assets/slider/slider3.jpg";
 import Sliderimg4 from "@/assets/slider/slider4.jpg";
