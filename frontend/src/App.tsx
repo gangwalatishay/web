@@ -4,8 +4,10 @@ import {
 } from "react-router-dom";
 
 import Page from "./app/page";
+
 import Courses from "./app/menu-items/courses/courses";
 import Gallery from "./app/menu-items/gallery/gallerypage";
+
 import ProfilePage from "./app/profile/page";
 import CourseDetail from "./app/menu-items/courses/_components/course-detail";
 import Login from "./auth/Login";
@@ -18,9 +20,11 @@ export default function App() {
       <div className="flex flex-col items-center justify-center md:justify-start">
         <Routes>
           <Route path="/" element={<Page />} />
+
           <Route path="/courses" element={<Courses />} />
           <Route path="/course/:courseId" element={<CourseDetail />} />
           <Route path="/gallery" element={<Gallery />} />
+
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />

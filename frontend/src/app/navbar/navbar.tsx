@@ -24,7 +24,7 @@ export default function Navbar() {
         scrolled && "border-b shadow-sm"
       )}
     >
-      <div className="flex flex-row items-center justify-between px-20">
+      <div className="flex flex-row items-center justify-between pl-20">
         
         {/* Logo */}
         <Logo />
@@ -78,7 +78,7 @@ export default function Navbar() {
             {/* About */}
             <NavigationMenuItem>
               <NavigationMenuLink className="hover:bg-[#1A1D23] hover:text-white w-20">
-                <Link to="/about-us">About Us</Link>
+                <Link to="/about">About Us</Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
             {/* Gallery */}

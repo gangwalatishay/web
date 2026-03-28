@@ -50,41 +50,13 @@ export default function Navbar() {
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <NavigationMenuTrigger>Courses</NavigationMenuTrigger>
-              <NavigationMenuContent className="bg-[#0F1115] border-gray-800 text-white">
-                <div>
-                  <ul className="grid w-50 gap-0.5 md:w-125 md:grid-row-4 lg:w-100 h-40">
-                    <div className="flex items-center hover:bg-gray-400/10 p-1 rounded-sm">
-                      <div>
-                        <a>Foundations Track</a>
-                      </div>
-                    </div>
-                    <div className="flex items-center hover:bg-gray-400/10 p-1 rounded-sm">
-                      <div>
-                        <a>Software Engineering Track</a>
-                      </div>
-                    </div>
-                    <div className="flex items-center hover:bg-gray-400/10 p-1 rounded-sm">
-                      <div>
-                        <a>Data & Analytics Track</a>
-                      </div>
-                    </div>
-                    <div className="flex items-center hover:bg-gray-400/10 p-1 rounded-sm">
-                      <div>
-                        <p className="text-gray-400 text-sm font-light">
-                          For other courses&nbsp;
-                          <Link
-                            to="/courses"
-                            className="underline text-gray-400 text-sm font-light"
-                          >
-                            visit course page
-                          </Link>
-                        </p>
-                      </div>
-                    </div>
-                  </ul>
-                </div>
-              </NavigationMenuContent>
+              <NavigationMenuLink className="hover:bg-[#1A1D23] hover:text-white">
+                <Link
+                  to="/"
+                >
+                  Home
+                </Link>
+              </NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
               <NavigationMenuTrigger>Schools & Institutions</NavigationMenuTrigger>
@@ -99,7 +71,7 @@ export default function Navbar() {
             <NavigationMenuItem>
               <NavigationMenuLink className="hover:bg-[#1A1D23] hover:text-white w-20">
                 <Link
-                  to="/about-us"
+                  to="/about"
                 >
                   About Us
                 </Link>
