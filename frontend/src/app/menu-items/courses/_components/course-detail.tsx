@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import Navbar from "@/app/navbar/navbar";
-import Footer from "./_components/footer";
+import Footer from "./footer";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart, Heart, FileText } from "lucide-react";
 import { loadRazorpayCheckout, openCheckout } from "@/lib/razorpay";
@@ -172,14 +172,14 @@ export default function CourseDetail() {
           {/* Left side - Demo Video (50% width) */}
           <div className="w-full lg:w-1/2">
             {hasDemoVideo ? (
-              <div className="w-full h-full min-h-[400px] lg:min-h-[500px] bg-zinc-900 rounded-lg overflow-hidden">
-                <video controls className="w-full h-full min-h-[400px] lg:min-h-[500px] rounded-lg">
+              <div className="w-full h-full min-h-100 lg:min-h-125 bg-zinc-900 rounded-lg overflow-hidden">
+                <video controls className="w-full h-full min-h-100 lg:min-h-125 rounded-lg">
                   <source src={course.demoVideo} type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
               </div>
             ) : (
-              <div className="w-full h-full min-h-[400px] lg:min-h-[500px] bg-zinc-900 rounded-lg flex items-center justify-center">
+              <div className="w-full h-full min-h-100 lg:min-h-125 bg-zinc-900 rounded-lg flex items-center justify-center">
                 <span className="text-zinc-500">Demo video coming soon</span>
               </div>
             )}

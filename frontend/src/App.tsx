@@ -7,7 +7,7 @@ import Page from "./app/page";
 import Courses from "./app/menu-items/courses/courses";
 import Gallery from "./app/menu-items/gallery/gallerypage";
 import ProfilePage from "./app/profile/page";
-import CourseDetail from "./app/menu-items/courses/course-detail";
+import CourseDetail from "./app/menu-items/courses/_components/course-detail";
 import Login from "./auth/Login";
 import Signup from "./auth/Signup";
 import ForgotPassword from "./auth/ForgotPassword";
