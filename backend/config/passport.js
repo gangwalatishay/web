@@ -74,8 +74,6 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_ID !== 'your_googl
             }
         )
     );
-} else {
-    console.warn('Google OAuth is not configured');
 }
 
 // Apple OAuth Strategy
@@ -95,8 +93,6 @@ if (process.env.APPLE_CLIENT_ID && process.env.APPLE_CLIENT_ID !== 'your_apple_c
             }
         )
     );
-} else {
-    console.warn('Apple OAuth is not configured');
 }
 
 module.exports = passport;

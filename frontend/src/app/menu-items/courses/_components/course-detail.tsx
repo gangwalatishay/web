@@ -4,23 +4,22 @@ import axios from "axios";
 import Navbar from "@/app/navbar/navbar";
 import Footer from "./footer";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Heart, FileText } from "lucide-react";
+import { ShoppingCart, Heart, FileText, CheckCircle2, PlayCircle, BookOpen, Clock, BarChart } from "lucide-react";
 import { loadRazorpayCheckout, openCheckout } from "@/lib/razorpay";
 
 type CourseItem = {
-  id: number;
+  courseId: string;
   price: string;
   image: string;
   features: string[];
   demoVideo?: string;
-  title?: string;
-  description?: string;
+  title: string;
+  description: string;
 };
 
-// Validate AWS S3 video URL
-function isValidS3Url(url: string): boolean {
+// Validate video URL
+function isValidVideoUrl(url: string): boolean {
   if (!url) return false;
-  // Check if it's an S3 URL or a direct video file URL
   return url.includes("amazonaws.com") || url.endsWith(".mp4") || url.endsWith(".webm") || url.endsWith(".ogg");
 }
 
@@ -29,8 +28,6 @@ function rupeesToPaise(str: string) {
   const rupees = parseInt(clean, 10);
   return rupees * 100;
 }
-
-
 
 export default function CourseDetail() {
   const { courseId } = useParams();
@@ -44,22 +41,12 @@ export default function CourseDetail() {
 
       try {
         setLoading(true);
-        const response = await axios.get(`http://127.0.0.1:5000/api/courses/${courseId}`);
-        const data = response.data;
-
-        setCourse({
-          id: Number(data.courseId),
-          price: data.price,
-          image: data.image || "",
-          features: data.features || [],
-          demoVideo: data.demoVideo,
-          title: data.title,
-          description: data.description,
-        });
+        // Ensure fetching from the correct backend URL
+        const response = await axios.get(`http://localhost:5000/api/courses/${courseId}`);
+        setCourse(response.data);
         setError(null);
-      } catch (err: unknown) {
-        const e = err as { response?: { data?: { error?: string } }; message?: string };
-        setError(e.response?.data?.error || e.message || "Failed to fetch course");
+      } catch (err: any) {
+        setError(err.response?.data?.error || "Failed to fetch course details");
         setCourse(null);
       } finally {
         setLoading(false);
@@ -67,38 +54,8 @@ export default function CourseDetail() {
     }
 
     fetchCourse();
+    window.scrollTo(0, 0);
   }, [courseId]);
-
-  if (loading) {
-    return (
-      <div className="flex flex-col w-full min-h-screen bg-[#0F1115]">
-        <Navbar />
-        <div className="flex-1 w-full px-4 md:px-8 lg:px-12 pt-24 pb-12 flex items-center justify-center">
-          <h1 className="text-2xl mb-6">Loading...</h1>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
-
-  if (error || !course) {
-    return (
-      <div className="flex flex-col w-full min-h-screen bg-[#0F1115]">
-        <Navbar />
-        <div className="flex-1 w-full px-4 md:px-8 lg:px-12 pt-24 pb-12 flex items-center justify-center text-center">
-          <div>
-            <h1 className="text-2xl mb-6">{error || "Course not found"}</h1>
-            <Link to="/app/courses" className="text-sky-400 hover:underline">← Back to courses</Link>
-          </div>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
-
-  const title = course.title || course.features[0] || "Course";
-  const description = course.description || "Comprehensive, project-based learning path designed to build real-world skills.";
-  const hasDemoVideo = isValidS3Url(course.demoVideo || "");
 
   async function handleBuy() {
     if (!course) return;
@@ -107,13 +64,13 @@ export default function CourseDetail() {
 
     const loaded = await loadRazorpayCheckout();
     if (!loaded) {
-      alert("Failed to load Razorpay");
+      alert("Failed to load Razorpay. Please check your internet connection.");
       return;
     }
 
     try {
-      const res = await axios.post("http://127.0.0.1:5000/api/payment/create-order", {
-        courseId: String(course.id),
+      const res = await axios.post("http://localhost:5000/api/payment/create-order", {
+        courseId: course.courseId,
         amount,
         userId,
       });
@@ -126,8 +83,8 @@ export default function CourseDetail() {
           key: key_id,
           amount,
           currency,
-          name: "Algoascend",
-          description: course.features[0] || "Course",
+          name: "AlgoAscend",
+          description: course.title,
           order_id: orderId,
           prefill: {
             name: user.name || "",
@@ -137,105 +94,182 @@ export default function CourseDetail() {
         },
         async (resp) => {
           try {
-            const verify = await axios.post("http://127.0.0.1:5000/api/payment/verify", {
+            const verify = await axios.post("http://localhost:5000/api/payment/verify", {
               razorpay_order_id: resp.razorpay_order_id,
               razorpay_payment_id: resp.razorpay_payment_id,
               razorpay_signature: resp.razorpay_signature,
-              courseId: String(course.id),
+              courseId: course.courseId,
               userId,
             });
             if (verify.data?.success) {
-              alert("Payment successful. Course unlocked!");
-            } else {
-              alert("Payment verification failed");
+              alert("Payment successful! Course has been added to your profile.");
             }
-          } catch (err: unknown) {
-            const e = err as { response?: { data?: { error?: string } }; message?: string };
-            alert("Payment verification error: " + (e.response?.data?.error || e.message || "Unknown error"));
+          } catch (err) {
+            console.error("Verification error:", err);
+            alert("Payment verification failed. Please contact support.");
           }
         },
         () => {
-          alert("Payment popup closed");
+          alert("Payment cancelled or failed. Please try again.");
         }
       );
-    } catch (err: unknown) {
-      const e = err as { response?: { data?: { error?: string } }; message?: string };
-      alert("Order creation failed: " + (e.response?.data?.error || e.message || "Unknown error"));
+    } catch (err) {
+      console.error("Order creation error:", err);
+      alert("Failed to initiate payment. Please try again later.");
     }
   }
 
+  if (loading) {
+    return (
+      <div className="flex flex-col w-full min-h-screen bg-[#0F1115]">
+        <Navbar />
+        <div className="flex-1 flex items-center justify-center">
+          <div className="animate-pulse text-xl text-sky-400">Loading Course Details...</div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (error || !course) {
+    return (
+      <div className="flex flex-col w-full min-h-screen bg-[#0F1115]">
+        <Navbar />
+        <div className="flex-1 flex flex-col items-center justify-center text-center px-4">
+          <h1 className="text-3xl font-bold mb-4 text-red-500">{error || "Course Not Found"}</h1>
+          <p className="text-gray-400 mb-8 max-w-md">
+            We couldn't find the course you're looking for. It might have been moved or doesn't exist.
+          </p>
+          <Link to="/courses">
+            <Button variant="outline" className="border-sky-500 text-sky-500 hover:bg-sky-500/10">
+              ← Back to Courses
+            </Button>
+          </Link>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
-    <div className="flex flex-col w-full min-h-screen bg-[#0F1115]">
+    <div className="flex flex-col w-full min-h-screen bg-[#0F1115] text-white">
       <Navbar />
-      <div className="flex-1 w-full px-4 md:px-8 lg:px-12 pt-24 pb-12">
-        <div className="flex flex-col lg:flex-row gap-8 h-full">
-          {/* Left side - Demo Video (50% width) */}
-          <div className="w-full lg:w-1/2">
-            {hasDemoVideo ? (
-              <div className="w-full h-full min-h-100 lg:min-h-125 bg-zinc-900 rounded-lg overflow-hidden">
-                <video controls className="w-full h-full min-h-100 lg:min-h-125 rounded-lg">
-                  <source src={course.demoVideo} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
+      
+      <main className="flex-1 w-full max-w-7xl mx-auto px-4 md:px-8 lg:px-12 pt-28 pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          
+          {/* LEFT COLUMN: CONTENT */}
+          <div className="lg:col-span-2 space-y-10">
+            <div>
+              <nav className="flex mb-6 text-sm text-gray-500 gap-2">
+                <Link to="/" className="hover:text-sky-400">Home</Link>
+                <span>/</span>
+                <Link to="/courses" className="hover:text-sky-400">Courses</Link>
+                <span>/</span>
+                <span className="text-sky-400 truncate">{course.title}</span>
+              </nav>
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-6 leading-tight">
+                {course.title}
+              </h1>
+              <p className="text-lg text-gray-400 leading-relaxed mb-8">
+                {course.description}
+              </p>
+              
+              <div className="flex flex-wrap gap-6 text-sm text-gray-300">
+                <div className="flex items-center gap-2">
+                  <Clock className="w-5 h-5 text-sky-500" />
+                  <span>Self-paced Learning</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <BarChart className="w-5 h-5 text-sky-500" />
+                  <span>Beginner to Advanced</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <BookOpen className="w-5 h-5 text-sky-500" />
+                  <span>Hands-on Projects</span>
+                </div>
               </div>
-            ) : (
-              <div className="w-full h-full min-h-100 lg:min-h-125 bg-zinc-900 rounded-lg flex items-center justify-center">
-                <span className="text-zinc-500">Demo video coming soon</span>
+            </div>
+
+            {/* VIDEO PLAYER SECTION */}
+            <div className="bg-[#1A1D23] rounded-2xl overflow-hidden border border-gray-800 shadow-2xl group">
+              {isValidVideoUrl(course.demoVideo || "") ? (
+                <video 
+                  src={course.demoVideo} 
+                  className="w-full aspect-video object-cover" 
+                  controls
+                  poster={course.image}
+                />
+              ) : (
+                <div className="w-full aspect-video bg-gray-900 flex flex-col items-center justify-center relative overflow-hidden">
+                  <div className="absolute inset-0 opacity-20 bg-gradient-to-br from-sky-500 to-purple-600" />
+                  <PlayCircle className="w-20 h-20 text-sky-500/50 mb-4 z-10 group-hover:scale-110 transition-transform" />
+                  <p className="text-gray-500 z-10 font-medium">Demo video coming soon</p>
+                </div>
+              )}
+            </div>
+
+            {/* FEATURES SECTION */}
+            <div className="space-y-6">
+              <h2 className="text-2xl font-bold flex items-center gap-3">
+                <CheckCircle2 className="w-6 h-6 text-sky-500" />
+                What you'll learn
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {course.features.map((feature, index) => (
+                  <div key={index} className="flex items-start gap-3 bg-[#1A1D23] p-4 rounded-xl border border-gray-800 hover:border-sky-500/30 transition-colors">
+                    <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+                    <span className="text-gray-300 leading-snug">{feature}</span>
+                  </div>
+                ))}
               </div>
-            )}
+            </div>
           </div>
 
-          {/* Right side - Course Details (50% width) */}
-          <div className="w-full lg:w-1/2 bg-zinc-900 rounded-lg p-6 md:p-8 space-y-4">
-            <h1 className="text-3xl md:text-4xl font-semibold">{title}</h1>
-            <p className="text-zinc-300 text-lg">{description}</p>
-            <div className="text-3xl font-bold text-sky-400">{course.price}</div>
-            <div className="pt-4 space-y-3">
-              <Button
-                onClick={handleBuy}
-                className="w-full bg-sky-500 hover:bg-sky-600 text-white text-lg py-3 h-auto"
-              >
-                Buy Now
-              </Button>
-              <Button
-                variant="outline"
-                className="w-full bg-transparent border-2 border-zinc-500 text-white hover:bg-zinc-700 hover:text-white hover:border-zinc-400 text-lg py-3 h-auto"
-                onClick={() => alert("Added to cart!")}
-              >
-                <ShoppingCart className="w-5 h-5 mr-2" />
-                Add to Cart
-              </Button>
-              <Button
-                variant="outline"
-                className="w-full bg-transparent border-2 border-zinc-500 text-white hover:bg-zinc-700 hover:text-white hover:border-zinc-400 text-lg py-3 h-auto"
-                onClick={() => alert("Added to wishlist!")}
-              >
-                <Heart className="w-5 h-5 mr-2" />
-                Add to Wishlist
-              </Button>
-              <Button
-                variant="outline"
-                className="w-full bg-transparent border-2 border-green-600 text-green-500 hover:bg-green-600 hover:text-white hover:border-green-600 text-lg py-3 h-auto"
-                onClick={() => alert("Downloading Course Brochure...")}
-              >
-                <FileText className="w-5 h-5 mr-2" />
-                Download Course Brochure
-              </Button>
-            </div>
-            <div className="pt-4">
-              <h3 className="text-lg font-semibold mb-2">Course Features</h3>
-              <ul className="list-disc list-inside space-y-2 text-zinc-300">
-                {course.features.map((f, i) => (
-                  <li key={i}>{f}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="pt-4">
-              <Link to="/courses" className="text-sky-400 hover:underline">← Back to courses</Link>
+          {/* RIGHT COLUMN: STICKY SIDEBAR */}
+          <div className="lg:col-span-1">
+            <div className="sticky top-28 bg-[#1A1D23] rounded-2xl border border-gray-800 p-8 shadow-2xl space-y-8">
+              <div className="space-y-2 text-center lg:text-left">
+                <span className="text-sky-500 text-sm font-bold tracking-widest uppercase">Premium Course</span>
+                <div className="text-4xl font-black text-white">{course.price}</div>
+                <p className="text-gray-500 text-sm italic">Lifetime access & future updates</p>
+              </div>
+
+              <div className="space-y-3">
+                <Button 
+                  onClick={handleBuy}
+                  className="w-full h-14 bg-sky-600 hover:bg-sky-500 text-white font-bold text-lg rounded-xl shadow-lg shadow-sky-600/20 transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3"
+                >
+                  <ShoppingCart className="w-6 h-6" />
+                  Enroll Now
+                </Button>
+                <div className="grid grid-cols-2 gap-3">
+                  <Button variant="outline" className="h-12 border-gray-800 bg-gray-900/50 hover:bg-gray-800 text-gray-300 rounded-xl flex items-center justify-center gap-2">
+                    <Heart className="w-5 h-5" />
+                    Wishlist
+                  </Button>
+                  <Button variant="outline" className="h-12 border-gray-800 bg-gray-900/50 hover:bg-gray-800 text-gray-300 rounded-xl flex items-center justify-center gap-2">
+                    <FileText className="w-5 h-5" />
+                    Brochure
+                  </Button>
+                </div>
+              </div>
+
+              <div className="pt-8 border-t border-gray-800 space-y-4">
+                <p className="text-sm font-bold text-gray-400 uppercase tracking-wider">Includes:</p>
+                <ul className="space-y-3 text-sm text-gray-400">
+                  <li className="flex items-center gap-3 italic">✓ Access on mobile and TV</li>
+                  <li className="flex items-center gap-3 italic">✓ Certificate of completion</li>
+                  <li className="flex items-center gap-3 italic">✓ Q&A with instructors</li>
+                  <li className="flex items-center gap-3 italic">✓ Downloadable resources</li>
+                </ul>
+              </div>
             </div>
           </div>
+
         </div>
-      </div>
+      </main>
+
       <Footer />
     </div>
   );

@@ -46,6 +46,9 @@ export default function CoursesList() {
                   className="imgBx"
                   style={{ backgroundImage: `url(${course.image})` }}
                 >
+                  <h2 className="absolute top-4 left-4 right-4 text-white text-xl font-bold z-10 drop-shadow-lg">
+                    {course.title}
+                  </h2>
                 </div>
                 {/* CONTENT */}
                 <div className="content">
