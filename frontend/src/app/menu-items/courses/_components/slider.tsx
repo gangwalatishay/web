@@ -17,7 +17,8 @@ export default function Slider() {
         width: "100%",
         aspectRatio: "7 / 2",
         margin: "0 auto",
-      }}>
+      }}
+    >
       <ImageSlider imageUrls={IMAGES} />
     </div>
   )

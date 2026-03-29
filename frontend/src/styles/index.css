@@ -145,7 +145,7 @@ body {
   position: relative;
   width: 350px;
   height: 190px;
-  background: #fff;
+  background: #18181B;
   border-radius: 20px;
   box-shadow: 0 35px 80px rgba(0, 0, 0, 0.15);
   transition: 0.5s;
@@ -208,7 +208,7 @@ body {
 .teamcard .card .content .details h2 {
   font-size: 1.25em;
   font-weight: 600;
-  color: #555;
+  color: #fff;
   line-height: 1.2em;
 }
 
@@ -241,7 +241,7 @@ body {
 
 .teamcard .card .content .details .actionTxt h3 {
   font-size: 1em;
-  color: #555;
+  color: #fff;
   line-height: 1.2em;
   font-weight: 600;
 }

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -6,133 +5,93 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu"
+} from "@/components/ui/navigation-menu";
 
 import { useScrollTop } from "@/hooks/use-scroll-top";
-
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 import ActionButton from "./_components/action-button";
-import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import { Logo } from "@/components/logo";
 
 export default function Navbar() {
   const scrolled = useScrollTop();
-  const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userRole, setUserRole] = useState('');
-
-  useEffect(() => {
-    const checkAuth = () => {
-      const token = localStorage.getItem('token');
-      const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
-      setIsLoggedIn(!!token);
-      setUserRole(user.role || '');
-    };
-
-    checkAuth();
-    // Check auth status every second to update when user logs in/out
-    const interval = setInterval(checkAuth, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const handleAuth = () => {
-    if (isLoggedIn) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('currentUser');
-      setIsLoggedIn(false);
-      navigate('/');
-    } else {
-      navigate('/signup');
-    }
-  };
 
   return (
-    <div className={cn(
-      "fixed w-full border-b border-gray-800 bg-[#0F1115]",
-      scrolled && "border-b shadow-sm"
-    )}>
-      <div className="flex flex-row items-center justify-between px-20">
-        <img src="../src/assets/logo.png" alt="Logo" className="h-20 w-20 flex" />
+    <div
+      className={cn(
+        "fixed w-full border-b border-gray-800 bg-[#0F1115] z-9999",
+        scrolled && "border-b shadow-sm"
+      )}
+    >
+      <div className="flex flex-row items-center justify-between pl-20">
+        
+        {/* Logo */}
+        <Logo />
+        {/* Navigation Menu */}
         <NavigationMenu>
           <NavigationMenuList>
+            
+            {/* Courses */}
             <NavigationMenuItem>
               <NavigationMenuTrigger>Courses</NavigationMenuTrigger>
               <NavigationMenuContent className="bg-[#0F1115] border-gray-800 text-white">
                 <div>
                   <ul className="grid w-50 gap-0.5 md:w-125 md:grid-row-4 lg:w-100 h-40">
+                    
                     <div className="flex items-center hover:bg-gray-400/10 p-1 rounded-sm">
-                      <div>
-                        <a>Foundations Track</a>
-                      </div>
+                      <a>Foundations Track</a>
                     </div>
                     <div className="flex items-center hover:bg-gray-400/10 p-1 rounded-sm">
-                      <div>
-                        <a>Software Engineering Track</a>
-                      </div>
+                      <a>Software Engineering Track</a>
                     </div>
                     <div className="flex items-center hover:bg-gray-400/10 p-1 rounded-sm">
-                      <div>
-                        <a>Data & Analytics Track</a>
-                      </div>
+                      <a>Data & Analytics Track</a>
                     </div>
                     <div className="flex items-center hover:bg-gray-400/10 p-1 rounded-sm">
-                      <div>
-                        <p className="text-gray-400 text-sm font-light">
-                          For other courses&nbsp;
-                          <Link
-                            to="/courses"
-                            className="underline text-gray-400 text-sm font-light"
-                          >
-                            visit course page
-                          </Link>
-                        </p>
-                      </div>
+                      <p className="text-gray-400 text-sm font-light">
+                        For other courses&nbsp;
+                        <Link
+                          to="/courses"
+                          className="underline text-gray-400 text-sm font-light"
+                        >
+                          visit course page
+                        </Link>
+                      </p>
                     </div>
                   </ul>
                 </div>
               </NavigationMenuContent>
             </NavigationMenuItem>
+            {/* Schools */}
             <NavigationMenuItem>
-              <NavigationMenuTrigger>Schools & Institutions</NavigationMenuTrigger>
-              <NavigationMenuContent>
-              </NavigationMenuContent>
+              <NavigationMenuTrigger>
+                Schools & Institutions
+              </NavigationMenuTrigger>
+              <NavigationMenuContent />
             </NavigationMenuItem>
+            {/* Students */}
             <NavigationMenuItem>
               <NavigationMenuTrigger>Students</NavigationMenuTrigger>
-              <NavigationMenuContent>
-              </NavigationMenuContent>
+              <NavigationMenuContent />
             </NavigationMenuItem>
+            {/* About */}
             <NavigationMenuItem>
               <NavigationMenuLink className="hover:bg-[#1A1D23] hover:text-white w-20">
-                <Link
-                  to="/about-us"
-                >
-                  About Us
-                </Link>
+                <Link to="/about">About Us</Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
+            {/* Gallery */}
             <NavigationMenuItem>
               <NavigationMenuLink className="hover:bg-[#1A1D23] hover:text-white">
-                <Link
-                  to="/gallery"
-                >
-                  Gallery
-                </Link>
+                <Link to="/gallery">Gallery</Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
+        {/* Right Side Actions */}
         <ActionButton />
-        <Button
-          variant="ghost"
-          size="lg"
-          onClick={handleAuth}
-          className="bg-[#3B82F6] text-white font-medium hover:bg-[#2563EB] hover:text-white self-center justify-self-end mr-12 px-6">
-          {isLoggedIn ? 'Logout' : 'Login'}
-        </Button>
       </div>
     </div>
-  )
+  );
 }
