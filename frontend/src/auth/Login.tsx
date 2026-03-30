@@ -94,7 +94,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#0a0a0f] flex flex-col">
+    <div className="min-h-screen w-full bg-[#0F1115] flex flex-col">
       {/* Navbar */}
       <nav className="flex items-center justify-between px-8 py-4">
         <div className="flex items-center gap-2">

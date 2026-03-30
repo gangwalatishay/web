@@ -94,7 +94,7 @@ export default function Signup() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] flex flex-col">
+    <div className="min-h-screen bg-[#0F1115] flex flex-col">
 
       {/* Navbar */}
       <nav className="flex items-center justify-between px-8 py-4">
