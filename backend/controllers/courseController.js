@@ -12,10 +12,13 @@ function getAllCourses(req, res) {
 function getCourseById(req, res) {
     try {
         const { courseId } = req.params;
-        const course = courses.find(c => c.courseId === courseId);
+        console.log('Fetching course with ID:', courseId);
+        // Using loose equality or converting to string to be safe
+        const course = courses.find(c => String(c.courseId) === String(courseId));
 
         if (!course) {
-            return res.status(404).json({ error: 'Course not found' });
+            console.log('Course not found for ID:', courseId);
+            return res.status(404).json({ error: `Course with ID ${courseId} not found` });
         }
 
         res.json(course);
