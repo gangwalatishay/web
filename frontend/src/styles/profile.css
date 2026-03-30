@@ -1,0 +1,14 @@
+.input-dark {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: #0f0f1a;
+  border: 1px solid #2a2a3a;
+  color: white;
+  outline: none;
+  transition: 0.3s;
+}
+
+.input-dark:focus {
+  border-color: #3b82f6;
+}

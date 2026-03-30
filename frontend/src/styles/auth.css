@@ -1,0 +1,29 @@
+.input {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 14px;
+  border: 1px solid #e4e4e7;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+}
+
+.btn-social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid #e4e4e7;
+  background: white;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-social:hover {
+  background: #f4f4f5;
+}
