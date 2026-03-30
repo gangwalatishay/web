@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from "axios";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -57,11 +57,12 @@ export default function Login() {
       alert('Login successful!');
       navigate('/');
 
-    } catch (err: any) {
-      console.error(err);
-      setError(err.response?.data?.error || 'An error occurred during login');
-    } finally {
-      setLoading(false);
+    }catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        setError(err.response?.data?.error || "Login failed");
+      } else {
+        setError("Something went wrong");
+      }
     }
   };
 
@@ -155,7 +156,7 @@ export default function Login() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-blue-600 text-white font-bold py-4.5 px-4 rounded-2xl hover:bg-blue-700 transition duration-300 shadow-xl shadow-blue-600/30 mt-4 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-[#3B82F6] text-white font-bold py-4.5 px-4 rounded-2xl hover:bg-blue-700 transition duration-300 shadow-xl shadow-blue-600/30 mt-4 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? 'Logging in...' : 'Log In'}
             </button>
