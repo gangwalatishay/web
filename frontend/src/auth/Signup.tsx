@@ -129,10 +129,13 @@ export default function Signup() {
         navigate('/');
       }, 1500);
 
-    } catch (err: any) {
-      console.error(err);
-      setError(err.response?.data?.error || 'An error occurred during signup. Please try again.');
-    }
+    } catch (err: unknown) {
+        if (axios.isAxiosError(err)) {
+          setError(err.response?.data?.error || "Login failed");
+        } else {
+          setError("Something went wrong");
+        }
+      }
   };
 
   const handleSocialAuth = (provider: string) => {
