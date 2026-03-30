@@ -123,66 +123,54 @@ export default function Login() {
             />
           </div>
         </div>
-
         {/* Right Side */}
         <div className="flex-1 flex items-center justify-center px-8 py-12 overflow-y-auto">
           <div className="w-full max-w-md bg-[#18181B] backdrop-blur-sm rounded-3xl p-8 border border-gray-800">
-
             <h2 className="text-3xl font-bold text-center text-white mb-2">
               Welcome Back
             </h2>
-
             <p className="text-center text-gray-400 mb-6">
               Login to continue your journey
             </p>
-
             {error && (
               <div className="bg-red-500/20 border border-red-500/50 text-red-300 px-4 py-3 rounded-xl mb-4 text-sm text-center">
                 {error}
               </div>
             )}
-
             <form onSubmit={handleSubmit} className="space-y-4">
-
               <div>
                 <label className="block text-white text-sm mb-1.5">
                   Email or Mobile
                 </label>
-
-                <div className="flex space-x-2">
+                <div className="flex items-center bg-[#0f0f1a] border border-gray-700 rounded-xl overflow-hidden">
                   {!isEmail(formData.mobileNumber) && (
                     <select
                       name="countryCode"
                       value={formData.countryCode}
                       onChange={handleChange}
-                      className="w-1/3 px-3 py-3 bg-[#0f0f1a] border border-gray-700 rounded-xl text-white text-sm"
+                      className="px-3 py-3 bg-[#0f0f1a] text-white text-sm outline-none border-r border-[#4b5563] appearance-none"
                     >
                       {countryCodes.map((c) => (
                         <option key={c.code} value={c.code}>
-                          {c.code} ({c.name})
+                          {c.code}
                         </option>
                       ))}
                     </select>
                   )}
-
                   <input
                     type="text"
                     name="mobileNumber"
                     value={formData.mobileNumber}
                     onChange={handleChange}
-                    className={`${
-                      isEmail(formData.mobileNumber) ? 'w-full' : 'w-2/3'
-                    } px-4 py-3 bg-[#0f0f1a] border border-gray-700 rounded-xl text-white placeholder-gray-500 text-sm`}
                     placeholder="Email or Mobile"
+                    className="flex-1 px-4 py-3 bg-transparent text-white placeholder-gray-500 outline-none text-sm"
                   />
                 </div>
               </div>
-
               <div>
                 <label className="block text-white text-sm mb-1.5">
                   Password
                 </label>
-
                 <input
                   type="password"
                   name="password"
