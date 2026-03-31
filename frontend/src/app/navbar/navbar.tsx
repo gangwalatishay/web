@@ -95,11 +95,11 @@ export default function Navbar() {
                 </div>
               </NavigationMenuContent>
             </NavigationMenuItem>
-            {/* Students */}
+            {/* Students
             <NavigationMenuItem>
               <NavigationMenuTrigger>Students</NavigationMenuTrigger>
               <NavigationMenuContent />
-            </NavigationMenuItem>
+            </NavigationMenuItem> */}
             {/* About */}
             <NavigationMenuItem>
               <NavigationMenuLink className="hover:bg-[#1A1D23] hover:text-white w-20">
