@@ -101,9 +101,8 @@ export default function Signup() {
         companyName: formData.userType === 'professional' ? formData.companyName : ''
       });
 
-      const { token, user } = response.data;
+      const { token } = response.data;
       localStorage.setItem('token', token);
-      localStorage.setItem('currentUser', JSON.stringify(user));
 
       setSuccess('Account created successfully!');
 

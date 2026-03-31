@@ -7,16 +7,13 @@ export default function AuthCallback() {
 
     useEffect(() => {
         const token = searchParams.get('token');
-        const userStr = searchParams.get('user');
 
-        if (token && userStr) {
+        if (token) {
             try {
-                const user = JSON.parse(decodeURIComponent(userStr));
                 localStorage.setItem('token', token);
-                localStorage.setItem('currentUser', JSON.stringify(user));
                 navigate('/');
             } catch (error) {
-                console.error('Error parsing user data:', error);
+                console.error('Error with token:', error);
                 navigate('/login');
             }
         } else {

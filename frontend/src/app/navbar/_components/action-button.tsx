@@ -19,10 +19,14 @@ import { IoSettings } from "react-icons/io5";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { RiVipCrownLine } from "react-icons/ri";
 
+import axios from "axios";
+
 type User = {
   name: string;
   email: string;
-  role: "admin" | "user";
+  role: "admin" | "user" | "student" | "professional";
+  id?: string;
+  _id?: string;
 };
 
 const ActionButton = () => {
@@ -30,22 +34,50 @@ const ActionButton = () => {
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const checkAuth = () => {
+    const fetchUser = async () => {
       const token = localStorage.getItem("token");
-      const storedUser = JSON.parse(localStorage.getItem("currentUser") || "null");
+      if (!token) {
+        setIsAuthenticated(false);
+        setUser(null);
+        setLoading(false);
+        return;
+      }
 
-      setIsAuthenticated(!!token);
-      setUser(storedUser);
+      try {
+        const response = await axios.get("http://localhost:5000/api/auth/me", {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        
+        if (response.data.user) {
+          setIsAuthenticated(true);
+          setUser(response.data.user);
+        } else {
+          // Token might be invalid
+          localStorage.removeItem("token");
+          setIsAuthenticated(false);
+          setUser(null);
+        }
+      } catch (error) {
+        console.error("Error fetching user:", error);
+        localStorage.removeItem("token");
+        setIsAuthenticated(false);
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    checkAuth();
+    fetchUser();
 
-    // Optional: listen to storage changes (better than setInterval)
-    window.addEventListener("storage", checkAuth);
+    const handleStorageChange = () => {
+      fetchUser();
+    };
 
-    return () => window.removeEventListener("storage", checkAuth);
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
   const isAdmin = user?.role === "admin";
@@ -60,7 +92,6 @@ const ActionButton = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("currentUser");
 
     setIsAuthenticated(false);
     setUser(null);

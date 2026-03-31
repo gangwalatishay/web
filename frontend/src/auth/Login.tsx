@@ -51,9 +51,8 @@ export default function Login() {
         password: formData.password
       });
 
-      const { token, user } = response.data;
+      const { token } = response.data;
       localStorage.setItem('token', token);
-      localStorage.setItem('currentUser', JSON.stringify(user));
 
       alert('Login successful!');
       navigate('/');

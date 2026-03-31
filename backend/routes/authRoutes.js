@@ -1,6 +1,7 @@
 const express = require('express');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
+const { verifyToken } = require('../middleware/authMiddleware');
 const {
   signup,
   login,
@@ -19,6 +20,7 @@ router.post('/api/auth/signup', signup);
 router.post('/api/auth/login', login);
 router.post('/api/auth/forgot-password', forgotPassword);
 router.post('/api/auth/reset-password', resetPassword);
+router.get('/api/auth/me', verifyToken, getMe);
 
 // Google OAuth routes
 router.get('/api/auth/google',

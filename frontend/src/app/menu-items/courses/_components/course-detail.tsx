@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Navbar from "@/app/navbar/navbar";
 import Footer from "./footer";
@@ -31,6 +31,7 @@ function rupeesToPaise(str: string) {
 
 export default function CourseDetail() {
   const { courseId } = useParams();
+  const navigate = useNavigate();
   const [course, setCourse] = useState<CourseItem | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -59,7 +60,36 @@ export default function CourseDetail() {
 
   async function handleBuy() {
     if (!course) return;
-    const userId = localStorage.getItem("userId") || "guest";
+    
+    const token = localStorage.getItem("token");
+    
+    if (!token) {
+      alert("Please login to enroll in this course.");
+      navigate("/login");
+      return;
+    }
+
+    let currentUser;
+    try {
+      const response = await axios.get("http://localhost:5000/api/auth/me", {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      currentUser = response.data.user;
+    } catch (err) {
+      console.error("Error fetching user for order:", err);
+      alert("Session expired or invalid. Please login again.");
+      localStorage.removeItem("token");
+      navigate("/login");
+      return;
+    }
+
+    const userId = currentUser.id || currentUser._id;
+    if (!userId) {
+      alert("User identification failed. Please login again.");
+      navigate("/login");
+      return;
+    }
+
     const amount = rupeesToPaise(course.price);
 
     const loaded = await loadRazorpayCheckout();
@@ -76,7 +106,6 @@ export default function CourseDetail() {
       });
 
       const { orderId, key_id, currency } = res.data;
-      const user = JSON.parse(localStorage.getItem("currentUser") || "{}");
 
       openCheckout(
         {
@@ -87,9 +116,9 @@ export default function CourseDetail() {
           description: course.title,
           order_id: orderId,
           prefill: {
-            name: user.name || "",
-            email: user.email || "",
-            contact: user.mobile || "",
+            name: currentUser.name || "",
+            email: currentUser.email || "",
+            contact: currentUser.mobile || "",
           },
         },
         async (resp) => {
