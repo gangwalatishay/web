@@ -3,7 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import signupIllustration from '@/assets/signup-illustration.png';
+
 import { Logo } from '@/components/logo';
+
+type Role = "student" | "professional";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -11,20 +14,21 @@ export default function Signup() {
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
-    password: ''
+    password: '',
+    role: 'student' as Role
   });
 
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
-  // ✅ typed handler (no "any" issue)
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // ✅ validation (simple, fast UX)
+  const handleRoleChange = (role: Role) => {
+    setFormData({ ...formData, role });
+  };
+
   const validate = () => {
     if (!formData.fullName || !formData.email || !formData.password) {
       return 'All fields are required';
@@ -42,7 +46,6 @@ export default function Signup() {
     return null;
   };
 
-  // ✅ submit handler
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -61,7 +64,8 @@ export default function Signup() {
         {
           name: formData.fullName,
           email: formData.email,
-          password: formData.password
+          password: formData.password,
+          role: formData.role
         }
       );
 
@@ -70,7 +74,6 @@ export default function Signup() {
       localStorage.setItem('token', token);
       localStorage.setItem('currentUser', JSON.stringify(user));
 
-      // ✅ redirect to profile (complete details later)
       navigate('/profile');
 
     } catch (err: unknown) {
@@ -84,7 +87,6 @@ export default function Signup() {
     }
   };
 
-  // ✅ keep social login SAME (as you asked)
   const handleGoogleAuth = () => {
     window.location.href = 'http://127.0.0.1:5000/api/auth/google';
   };
@@ -96,92 +98,97 @@ export default function Signup() {
   return (
     <div className="min-h-screen bg-[#0F1115] flex flex-col">
 
-      {/* Navbar */}
       <nav className="flex items-center justify-between px-8 py-4">
-        <div className="text-white font-bold text-xl">
-          <Link to="/">
-            <Logo />
-          </Link>
-        </div>
+        <Link to="/"><Logo /></Link>
       </nav>
 
-      {/* Layout */}
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex">
 
-        {/* Left Side (same as login) */}
-        <div className="hidden lg:flex flex-1 flex-col justify-center px-16 py-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">
+        {/* LEFT */}
+        <div className="hidden lg:flex flex-1 flex-col justify-center px-16">
+          <h1 className="text-5xl font-bold text-white leading-tight">
             Start your journey<br />
-            to learn and grow.<br />
             <span className="text-blue-500">— AlgoAscend</span>
           </h1>
-
-          <div className="mt-8 flex justify-center">
-            <img
-              src={signupIllustration}
-              alt="Signup Illustration"
-              className="max-w-full rounded-3xl"
-            />
-          </div>
+          <img src={signupIllustration} className="mt-10 rounded-3xl" />
         </div>
 
-        {/* Right Side */}
-        <div className="flex-1 flex items-center justify-center px-8 py-12">
-          <div className="w-full max-w-md bg-[#18181B] backdrop-blur-sm rounded-3xl p-8 border border-[#18181B]/20">
+        {/* RIGHT */}
+        <div className="flex-1 flex items-center justify-center px-8">
+          <div className="w-full max-w-md bg-[#18181B] rounded-3xl p-8 border border-gray-800">
 
-            <h2 className="text-3xl font-bold text-center text-white mb-2">
+            <h2 className="text-3xl font-bold text-white text-center">
               Create Account
             </h2>
 
-            <p className="text-center text-gray-400 mb-6">
-              Join and start learning today
-            </p>
+            {/* ROLE SWITCH */}
+            <div className="flex bg-[#0f0f1a] p-1 rounded-xl mt-6">
+              <button
+                onClick={() => handleRoleChange("student")}
+                className={`flex-1 py-2 rounded-lg text-sm font-semibold ${
+                  formData.role === "student"
+                    ? "bg-blue-600 text-white"
+                    : "text-gray-400"
+                }`}
+              >
+                Student
+              </button>
+
+              <button
+                onClick={() => handleRoleChange("professional")}
+                className={`flex-1 py-2 rounded-lg text-sm font-semibold ${
+                  formData.role === "professional"
+                    ? "bg-blue-600 text-white"
+                    : "text-gray-400"
+                }`}
+              >
+                Professor
+              </button>
+            </div>
 
             {error && (
-              <div className="bg-red-500/20 border border-red-500/50 text-red-300 px-4 py-3 rounded-xl mb-4 text-sm text-center">
+              <div className="bg-red-500/20 text-red-300 p-3 rounded-xl mt-4 text-sm text-center">
                 {error}
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4 mt-6">
 
               <input
-                type="text"
                 name="fullName"
+                placeholder="Full Name"
                 value={formData.fullName}
                 onChange={handleChange}
-                placeholder="Full Name"
-                className="w-full px-4 py-3 bg-[#0f0f1a] border border-gray-700 rounded-xl text-white placeholder-gray-500"
+                className="input-dark"
               />
 
               <input
-                type="email"
                 name="email"
+                placeholder="Email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="Email Address"
-                className="w-full px-4 py-3 bg-[#0f0f1a] border border-gray-700 rounded-xl text-white placeholder-gray-500"
+                className="input-dark"
               />
 
               <input
                 type="password"
                 name="password"
+                placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
-                placeholder="Password"
-                className="w-full px-4 py-3 bg-[#0f0f1a] border border-gray-700 rounded-xl text-white placeholder-gray-500"
+                className="input-dark"
               />
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-blue-600 text-white font-bold py-4 rounded-2xl hover:bg-blue-700 transition text-lg disabled:opacity-50"
+                className="w-full bg-blue-600 py-3 rounded-xl text-white font-bold"
               >
-                {loading ? 'Creating account...' : 'Sign Up'}
+                {loading ? 'Creating...' : 'Sign Up'}
               </button>
             </form>
 
-            {/* Social Login */}
+            {/* SOCIAL */}
             <div className="flex flex-col gap-3 mt-3">
               <button
                 onClick={handleGoogleAuth}
@@ -206,16 +213,13 @@ export default function Signup() {
                 Continue with Apple
               </button>
             </div>
-            <p className="mt-4 text-center text-gray-400 text-sm">
-              Already have an account?{' '}
-              <Link to="/login" className="text-blue-400">
+            <p className="text-center text-gray-400 mt-4">
+              Already have an account? <Link to="/login" className="text-[#3B82F6] hover:text-blue-300">
                 Login
               </Link>
             </p>
-
           </div>
         </div>
-
       </div>
     </div>
   );

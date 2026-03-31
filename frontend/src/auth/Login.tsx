@@ -79,12 +79,10 @@ export default function Login() {
         setError('Something went wrong');
       }
     } finally {
-      // ✅ FIX 5: Always stop loading
       setLoading(false);
     }
   };
 
-  // ✅ Social auth (unchanged as you requested)
   const handleGoogleAuth = () => {
     window.location.href = 'http://127.0.0.1:5000/api/auth/google';
   };
