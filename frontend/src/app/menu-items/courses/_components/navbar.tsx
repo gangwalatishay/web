@@ -36,7 +36,7 @@ export default function Navbar() {
       setIsLoggedIn(false);
       navigate('/');
     } else {
-      navigate('/signup');
+      navigate('/lns');
     }
   };
 
@@ -93,7 +93,7 @@ export default function Navbar() {
           size="lg"
           onClick={handleAuth}
           className="bg-[#3B82F6] text-white font-medium hover:bg-[#2563EB] hover:text-white self-center justify-self-end mr-12 px-6">
-          {isLoggedIn ? 'Logout' : 'Login'}
+          LMS
         </Button>
       </div>
     </div>
