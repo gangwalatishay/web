@@ -46,9 +46,6 @@ export default function CoursesList() {
                   className="imgBx"
                   style={{ backgroundImage: `url(${course.image})` }}
                 >
-                  <h2 className="absolute top-4 left-4 right-4 text-white text-xl font-bold z-10 drop-shadow-lg">
-                    {course.title}
-                  </h2>
                 </div>
                 {/* CONTENT */}
                 <div className="content">
@@ -65,7 +62,7 @@ export default function CoursesList() {
                     ))}
                   </ul>
                   {/* ACTION BUTTONS */}
-                  <div className="flex flex-row justify-between items-center mt-8 gap-x-2">
+                  <div className="flex flex-row w-full justify-between items-center mt-8 gap-x-2">
                     <Button
                       variant="default"
                       size="lg"
@@ -76,6 +73,17 @@ export default function CoursesList() {
                       }}
                     >
                       WishList
+                    </Button>
+                    <Button
+                      variant="default"
+                      size="lg"
+                      className="text-white bg-[#970747] hover:bg-[#970747] text-md px-2"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        alert("Downloading syllabus!");
+                      }}
+                    >
+                      Syllabus
                     </Button>
                     <Button
                       variant="outline"

@@ -49,28 +49,28 @@ export const courseGroups: CourseGroup[] = [
       {
         id: 1,
         title: "Programming with Python U+002d Beginner to Advanced",
-        price: "₹1,000",
+        price: "Rs14,999/+",
         image: course1,
         features: ["Beginner to Advanced", "Hands-on Projects"]
       },
       {
         id: 2,
         title: "Data Structures & Algorithms Mastery",
-        price: "₹500",
+        price: "Rs14,999/+",
         image: course2,
         features: ["Core DSA Concepts", "Interview Preparation"]
       },
       {
         id: 3,
         title: "System Design Fundamentals",
-        price: "₹500",
+        price: "Rs14,999/+",
         image: course3,
         features: ["Scalable Systems", "Real-world Cases"]
       },
       {
         id: 4,
         title: "Git, Linux & Developer Tools Bootcamp",
-        price: "₹500",
+        price: "Rs14,999/+",
         image: course4,
         features: ["Version Control", "CLI Mastery"]
       },
@@ -83,35 +83,35 @@ export const courseGroups: CourseGroup[] = [
       {
         id: 5,
         title: "Java Full Stack Development Program",
-        price: "₹500,000",
+        price: "Rs14,999/+",
         image: course5,
         features: ["Frontend + Backend", "Project Based"]
       },
       {
         id: 6,
         title: "Backend Engineering with Spring Boot",
-        price: "₹500,000",
+        price: "Rs14,999/+",
         image: course6,
         features: ["REST APIs", "Spring Ecosystem"]
       },
       {
         id: 7,
         title: "Frontend Engineering with React",
-        price: "₹500,000",
+        price: "Rs14,999/+",
         image: course7,
         features: ["Modern UI", "State Management"]
       },
       {
         id: 8,
         title: "REST API & Microservices Development",
-        price: "₹500,000",
+        price: "Rs14,999/+",
         image: course8,
         features: ["Microservices", "API Design"]
       },
       {
         id: 9,
         title: "DevOps & Cloud Deployment (Docker + AWS)",
-        price: "₹500,000",
+        price: "Rs14,999/+",
         image: course9,
         features: ["CI/CD Pipelines", "Cloud Deployment"]
       },
@@ -124,35 +124,35 @@ export const courseGroups: CourseGroup[] = [
       {
         id: 10,
         title: "Data Analytics Professional Program",
-        price: "₹500,000",
+        price: "Rs14,999/+",
         image: course10,
         features: ["Data Cleaning", "Visualization"]
       },
       {
         id: 11,
         title: "SQL for Data Professionals",
-        price: "₹500,000",
+        price: "Rs14,999/+",
         image: course11,
         features: ["Advanced Queries", "Database Design"]
       },
       {
         id: 12,
         title: "Advanced Excel for Business Intelligence",
-        price: "₹500,000",
+        price: "Rs14,999/+",
         image: course12,
         features: ["Dashboards", "Automation"]
       },
       {
         id: 13,
         title: "Power BI & Tableau Dashboard Mastery",
-        price: "₹500,000",
+        price: "Rs14,999/+",
         image: course13,
         features: ["Data Visualization", "Interactive Reports"]
       },
       {
         id: 14,
         title: "Data Engineering with Kafka & Spark",
-        price: "₹500,000",
+        price: "Rs14,999/+",
         image: course14,
         features: ["Big Data", "Stream Processing"]
       },
@@ -165,28 +165,28 @@ export const courseGroups: CourseGroup[] = [
       {
         id: 15,
         title: "Machine Learning Engineering Program",
-        price: "₹500,000",
+        price: "Rs14,999/+",
         image: course15,
         features: ["ML Models", "Deployment"]
       },
       {
         id: 16,
         title: "Deep Learning & Computer Vision",
-        price: "₹500,000",
+        price: "Rs14,999/+",
         image: course16,
         features: ["CNNs", "Image Processing"]
       },
       {
         id: 17,
         title: "MLOps & Production ML Systems",
-        price: "₹500,000",
+        price: "Rs14,999/+",
         image: course17,
         features: ["Model Lifecycle", "CI/CD for ML"]
       },
       {
         id: 18,
         title: "AI Model Deployment",
-        price: "₹500,000",
+        price: "Rs14,999/+",
         image: course18,
         features: ["APIs", "Scalable Serving"]
       },
@@ -199,21 +199,21 @@ export const courseGroups: CourseGroup[] = [
       {
         id: 19,
         title: "Generative AI Engineering Program",
-        price: "₹500,000",
+        price: "Rs14,999/+",
         image: course19,
         features: ["LLMs", "AI Applications"]
       },
       {
         id: 20,
         title: "Transformer Architecture & LLM Fundamentals",
-        price: "₹500,000",
+        price: "Rs14,999/+",
         image: course20,
         features: ["Transformers", "Attention Mechanism"]
       },
       {
         id: 21,
         title: "Retrieval-Augmented Generation (RAG) Systems",
-        price: "₹500,000",
+        price: "Rs14,999/+",
         image: course21,
         features: ["RAG Pipelines", "Knowledge Retrieval"]
       },
@@ -226,21 +226,21 @@ export const courseGroups: CourseGroup[] = [
       {
         id: 22,
         title: "Multi-Agent Architectures",
-        price: "₹500,000",
+        price: "Rs14,999/+",
         image: course22,
         features: ["Agent Systems", "Coordination"]
       },
       {
         id: 23,
         title: "Agentic AI",
-        price: "₹500,000",
+        price: "Rs14,999/+",
         image: course23,
         features: ["Autonomous Agents", "Decision Making"]
       },
       {
         id: 24,
         title: "Advanced AI System Design",
-        price: "₹500,000",
+        price: "Rs14,999/+",
         image: course24,
         features: ["AI Architecture", "Scalability"]
       },
@@ -253,28 +253,28 @@ export const courseGroups: CourseGroup[] = [
       {
         id: 25,
         title: "FAANG Interview Preparation (DSA + System Design)",
-        price: "₹500,000",
+        price: "Rs14,999/+",
         image: course25,
         features: ["Mock Interviews", "Problem Solving"]
       },
       {
         id: 26,
         title: "AI Startup Builder Program",
-        price: "₹500,000",
+        price: "Rs14,999/+",
         image: course26,
         features: ["Startup Strategy", "MVP Building"]
       },
       {
         id: 27,
         title: "Resume, LinkedIn & Personal Branding Mastery",
-        price: "₹500,000",
+        price: "Rs14,999/+",
         image: course27,
         features: ["Resume Building", "LinkedIn Growth"]
       },
       {
         id: 28,
         title: "Open Source & Research Publishing Bootcamp",
-        price: "₹500,000",
+        price: "Rs14,999/+",
         image: course28,
         features: ["Open Source", "Research Writing"]
       },
