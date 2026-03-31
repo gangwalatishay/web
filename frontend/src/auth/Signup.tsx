@@ -6,6 +6,8 @@ import signupIllustration from '@/assets/signup-illustration.png';
 
 import { Logo } from '@/components/logo';
 
+import "../styles/auth.css";
+
 type Role = "student" | "professional";
 
 export default function Signup() {
