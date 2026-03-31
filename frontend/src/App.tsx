@@ -14,6 +14,7 @@ import Login from "./auth/Login";
 import Signup from "./auth/Signup";
 import ForgotPassword from "./auth/ForgotPassword";
 import About from "./app/menu-items/about-us/about";
+import InstitutionsPage from "./app/menu-items/school&institute/page";
 
 export default function App() {
   return (
@@ -31,6 +32,8 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+
+          <Route path="/institutions" element={<InstitutionsPage />} />
         </Routes>
       </div>
     </div>
