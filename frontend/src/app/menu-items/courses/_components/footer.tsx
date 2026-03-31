@@ -1,4 +1,11 @@
-import { Mail, MapPin, Phone } from "lucide-react";
+import {
+  Mail,
+  MapPin,
+  Phone
+} from "lucide-react";
+
+import course1 from "@/assets/courses/courses1.jpg";
+import course2 from "@/assets/courses/courses2.jpg";
 
 export default function Footer() {
   return (
@@ -21,24 +28,43 @@ export default function Footer() {
             </ul>
           </div>
           <div className="sec post">
-            <h2 className="text-2xl">Latest Post</h2>
-            <ul className="info">
-              <li>
-                <span>
-                  <Mail />
-                </span>
-                <p>
-                  <a href="mailto:info@algoascend.in">info@algoascend.in</a>
-                </p>
+            <h2 className="text-2xl mb-4">Latest Courses</h2>
+            <ul className="space-y-4">
+              {/* Course 1 */}
+              <li className="flex items-center gap-3 group cursor-pointer">
+                <img
+                  src={course1}
+                  alt="React Course"
+                  className="w-14 h-14 rounded-lg object-cover"
+                />
+                <div>
+                  <p className="text-white text-sm font-medium group-hover:text-blue-400 transition">
+                    React Mastery
+                  </p>
+                  <span className="text-gray-400 text-xs">
+                    Beginner to Advanced
+                  </span>
+                </div>
               </li>
-              <li>
-                <span>
-                  <MapPin />
-                </span>
-                <span>123 Main Street, City, Country</span>
+              {/* Course 2 */}
+              <li className="flex items-center gap-3 group cursor-pointer">
+                <img
+                  src={course2}
+                  alt="ML Course"
+                  className="w-14 h-14 rounded-lg object-cover"
+                />
+                <div>
+                  <p className="text-white text-sm font-medium group-hover:text-blue-400 transition">
+                    Machine Learning Basics
+                  </p>
+                  <span className="text-gray-400 text-xs">
+                    AI & Data Science
+                  </span>
+                </div>
               </li>
             </ul>
-          </div><div className="sec contact">
+          </div>
+          <div className="sec contact">
             <h2 className="text-2xl">Contact Us</h2>
             <ul className="info">
               <li>

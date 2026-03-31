@@ -13,6 +13,8 @@ import CourseDetail from "./app/menu-items/courses/_components/course-detail";
 import Login from "./auth/Login";
 import Signup from "./auth/Signup";
 import ForgotPassword from "./auth/ForgotPassword";
+import About from "./app/menu-items/about-us/about";
+import InstitutionsPage from "./app/menu-items/school&institute/page";
 
 export default function App() {
   return (
@@ -24,11 +26,14 @@ export default function App() {
           <Route path="/courses" element={<Courses />} />
           <Route path="/course/:courseId" element={<CourseDetail />} />
           <Route path="/gallery" element={<Gallery />} />
+          <Route path="/about" element={<About />} />
 
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+
+          <Route path="/institutions" element={<InstitutionsPage />} />
         </Routes>
       </div>
     </div>

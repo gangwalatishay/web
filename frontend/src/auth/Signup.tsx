@@ -1,63 +1,37 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import loginIllustration from '../assets/LMS.png';
-import TwilioOtp from '../components/TwilioOtp';
+
+import signupIllustration from '@/assets/signup-illustration.png';
+
+import { Logo } from '@/components/logo';
+
+type Role = "student" | "professional";
 
 export default function Signup() {
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
     password: '',
-    countryCode: '+91',
-    mobileNumber: '',
-    institution: '',
-    batchYear: '',
-    userType: 'student',
-    companyName: ''
+    role: 'student' as Role
   });
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [isPhoneVerified, setIsPhoneVerified] = useState(false);
-  const [showOtpVerification, setShowOtpVerification] = useState(false);
 
-  const countryCodes = [
-    { code: '+91', name: 'India' },
-    { code: '+1', name: 'USA/Canada' },
-    { code: '+44', name: 'UK' },
-    { code: '+61', name: 'Australia' },
-    { code: '+971', name: 'UAE' },
-    { code: '+65', name: 'Singapore' },
-  ];
+  const [error, setError] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const batchYears = Array.from({ length: 16 }, (_, i) => 2020 + i);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const getFullMobileNumber = () => `${formData.countryCode}${formData.mobileNumber}`;
+  const handleRoleChange = (role: Role) => {
+    setFormData({ ...formData, role });
+  };
 
   const validate = () => {
-    const fullMobile = getFullMobileNumber();
-    if (!formData.fullName || !formData.email || !formData.password || !formData.mobileNumber) {
-      return 'Basic fields are required';
-    }
-
-    if (!isPhoneVerified) {
-      return 'Please verify your mobile number via OTP';
-    }
-
-    if (formData.userType === 'student') {
-      if (!formData.institution || !formData.batchYear) {
-        return 'Institution and Batch Year are required for students';
-      }
-    } else if (formData.userType === 'professional') {
-      if (!formData.companyName) {
-        return 'Organization name is required for professionals';
-      }
+    if (!formData.fullName || !formData.email || !formData.password) {
+      return 'All fields are required';
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -65,54 +39,52 @@ export default function Signup() {
       return 'Invalid email format';
     }
 
-    const mobileRegex = /^\+\d{10,15}$/;
-    if (!mobileRegex.test(fullMobile)) {
-      return 'Invalid mobile number format';
-    }
     if (formData.password.length < 6) {
       return 'Password must be at least 6 characters';
     }
+
     return null;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    setSuccess('');
+    setLoading(true);
 
     const validationError = validate();
     if (validationError) {
       setError(validationError);
+      setLoading(false);
       return;
     }
 
-    const fullMobile = getFullMobileNumber();
-    setLoading(true);
-
     try {
-      const response = await axios.post('http://127.0.0.1:5000/api/auth/signup', {
-        name: formData.fullName,
-        email: formData.email,
-        password: formData.password,
-        mobile: fullMobile,
-        role: formData.userType,
-        institution: formData.institution,
-        batchYear: formData.batchYear,
-        companyName: formData.userType === 'professional' ? formData.companyName : ''
-      });
+      const response = await axios.post(
+        'http://127.0.0.1:5000/api/auth/signup',
+        {
+          name: formData.fullName,
+          email: formData.email,
+          password: formData.password,
+          role: formData.role
+        }
+      );
 
+<<<<<<< HEAD
       const { token } = response.data;
+=======
+      const { token, user } = response.data;
+
+>>>>>>> 7351d488c3a591a381239f8af663e40da8b20392
       localStorage.setItem('token', token);
 
-      setSuccess('Account created successfully!');
+      navigate('/profile');
 
-      setTimeout(() => {
-        navigate('/');
-      }, 1500);
-
-    } catch (err: any) {
-      console.error(err);
-      setError(err.response?.data?.error || 'An error occurred during signup. Please try again.');
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        setError(err.response?.data?.error || 'Signup failed');
+      } else {
+        setError('Something went wrong');
+      }
     } finally {
       setLoading(false);
     }
@@ -127,233 +99,99 @@ export default function Signup() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] flex flex-col">
-      {/* Navbar */}
+    <div className="min-h-screen bg-[#0F1115] flex flex-col">
+
       <nav className="flex items-center justify-between px-8 py-4">
-        <div className="flex items-center gap-2">
-          <div className="text-white font-bold text-xl">
-            <span className="text-blue-500">ALGO</span>ASCEND<span className="text-xs">.in</span>
-          </div>
-        </div>
-        <div className="flex items-center gap-4">
-          <Link to="/cart" className="text-white hover:text-gray-300">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-            </svg>
-          </Link>
-          <Link to="/login" className="px-6 py-2 border border-gray-600 text-white rounded-lg hover:bg-gray-800 transition">
-            Login
-          </Link>
-          <Link to="/signup" className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-            Sign Up
-          </Link>
-        </div>
+        <Link to="/"><Logo /></Link>
       </nav>
 
-      {/* Main Content */}
-      <div className="flex-1 flex overflow-hidden">
-        {/* Left Side - Hero Section */}
-        <div className="hidden lg:flex flex-1 flex-col justify-center px-16 py-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">
-            Empowering minds to<br />
-            learn, grow, and succeed.<br />
+      <div className="flex-1 flex">
+
+        {/* LEFT */}
+        <div className="hidden lg:flex flex-1 flex-col justify-center px-16">
+          <h1 className="text-5xl font-bold text-white leading-tight">
+            Start your journey<br />
             <span className="text-blue-500">— AlgoAscend</span>
           </h1>
-
-          {/* Illustration */}
-          <div className="relative mt-8 flex items-center justify-center">
-            <img 
-              src={loginIllustration} 
-              alt="Login Illustration" 
-              className="max-w-full h-auto rounded-3xl"
-            />
-          </div>
+          <img src={signupIllustration} className="mt-10 rounded-3xl" />
         </div>
 
-        {/* Right Side - Signup Form */}
-        <div className="flex-1 flex items-center justify-center px-8 py-12 overflow-y-auto">
-          <div className="w-full max-w-md bg-[#1a1a2e]/80 backdrop-blur-sm rounded-3xl p-8 border border-gray-800">
-            <h2 className="text-3xl font-bold text-center text-white mb-2">Create Your Account</h2>
-            <p className="text-center text-gray-400 mb-6">Start your learning journey today.</p>
+        {/* RIGHT */}
+        <div className="flex-1 flex items-center justify-center px-8">
+          <div className="w-full max-w-md bg-[#18181B] rounded-3xl p-8 border border-gray-800">
+
+            <h2 className="text-3xl font-bold text-white text-center">
+              Create Account
+            </h2>
+
+            {/* ROLE SWITCH */}
+            <div className="flex bg-[#0f0f1a] p-1 rounded-xl mt-6">
+              <button
+                onClick={() => handleRoleChange("student")}
+                className={`flex-1 py-2 rounded-lg text-sm font-semibold ${
+                  formData.role === "student"
+                    ? "bg-blue-600 text-white"
+                    : "text-gray-400"
+                }`}
+              >
+                Student
+              </button>
+
+              <button
+                onClick={() => handleRoleChange("professional")}
+                className={`flex-1 py-2 rounded-lg text-sm font-semibold ${
+                  formData.role === "professional"
+                    ? "bg-blue-600 text-white"
+                    : "text-gray-400"
+                }`}
+              >
+                Professor
+              </button>
+            </div>
 
             {error && (
-              <div className="bg-red-500/20 border border-red-500/50 text-red-300 px-4 py-3 rounded-xl mb-4 text-sm text-center">
+              <div className="bg-red-500/20 text-red-300 p-3 rounded-xl mt-4 text-sm text-center">
                 {error}
               </div>
             )}
-            {success && (
-              <div className="bg-green-500/20 border border-green-500/50 text-green-300 px-4 py-3 rounded-xl mb-4 text-sm text-center">
-                {success}
-              </div>
-            )}
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-white text-sm mb-1.5">Full Name</label>
-                <input
-                  type="text"
-                  name="fullName"
-                  value={formData.fullName}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 bg-[#0f0f1a] border border-gray-700 rounded-xl focus:outline-none focus:border-blue-500 text-white placeholder-gray-500 transition-all text-sm"
-                  placeholder="Full Name"
-                />
-              </div>
+            <form onSubmit={handleSubmit} className="space-y-4 mt-6">
 
-              <div>
-                <label className="block text-white text-sm mb-1.5">Email Address</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 bg-[#0f0f1a] border border-gray-700 rounded-xl focus:outline-none focus:border-blue-500 text-white placeholder-gray-500 transition-all text-sm"
-                  placeholder="Email Address"
-                />
-              </div>
+              <input
+                name="fullName"
+                placeholder="Full Name"
+                value={formData.fullName}
+                onChange={handleChange}
+                className="input-dark"
+              />
 
-              <div>
-                <label className="block text-white text-sm mb-1.5">Password</label>
-                <input
-                  type="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 bg-[#0f0f1a] border border-gray-700 rounded-xl focus:outline-none focus:border-blue-500 text-white placeholder-gray-500 transition-all text-sm"
-                  placeholder="Password"
-                />
-              </div>
+              <input
+                name="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleChange}
+                className="input-dark"
+              />
 
-              <div>
-                <label className="block text-white text-sm mb-1.5">Mobile Number</label>
-                <div className="flex space-x-2">
-                  <select
-                    name="countryCode"
-                    value={formData.countryCode}
-                    onChange={handleChange}
-                    disabled={isPhoneVerified}
-                    className="w-1/3 px-3 py-3 bg-[#0f0f1a] border border-gray-700 rounded-xl focus:outline-none focus:border-blue-500 text-white text-sm disabled:opacity-50"
-                  >
-                    {countryCodes.map((c) => (
-                      <option key={c.code} value={c.code}>
-                        {c.code} ({c.name})
-                      </option>
-                    ))}
-                  </select>
-                  <input
-                    type="text"
-                    name="mobileNumber"
-                    value={formData.mobileNumber}
-                    onChange={handleChange}
-                    disabled={isPhoneVerified}
-                    className="w-2/3 px-4 py-3 bg-[#0f0f1a] border border-gray-700 rounded-xl focus:outline-none focus:border-blue-500 text-white placeholder-gray-500 text-sm disabled:opacity-50"
-                    placeholder="Mobile Number"
-                  />
-                </div>
-              </div>
-
-              {!isPhoneVerified && formData.mobileNumber.length >= 10 && (
-                <div className="mt-2">
-                  {!showOtpVerification ? (
-                    <button
-                      type="button"
-                      onClick={() => setShowOtpVerification(true)}
-                      className="text-xs text-blue-500 hover:text-blue-400 font-medium"
-                    >
-                      Verify Mobile Number with OTP
-                    </button>
-                  ) : (
-                    <div className="bg-[#0f0f1a]/50 p-4 rounded-xl border border-gray-800">
-                      <TwilioOtp 
-                        phoneNumber={getFullMobileNumber()} 
-                        onVerificationSuccess={() => {
-                          setIsPhoneVerified(true);
-                          setShowOtpVerification(false);
-                          setSuccess('Mobile number verified successfully!');
-                          setTimeout(() => setSuccess(''), 3000);
-                        }} 
-                      />
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {isPhoneVerified && (
-                <div className="flex items-center gap-2 text-green-500 text-xs mt-1">
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                  Verified
-                </div>
-              )}
-
-              {/* User Type Toggle */}
-              <div className="flex bg-[#0f0f1a] p-1 rounded-xl">
-                <label className={`flex-1 cursor-pointer py-2.5 rounded-lg text-center text-sm font-medium transition-all ${formData.userType === 'student' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-gray-200'}`}>
-                  <input type="radio" name="userType" value="student" checked={formData.userType === 'student'} onChange={handleChange} className="hidden" />
-                  Student
-                </label>
-                <label className={`flex-1 cursor-pointer py-2.5 rounded-lg text-center text-sm font-medium transition-all ${formData.userType === 'professional' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-gray-200'}`}>
-                  <input type="radio" name="userType" value="professional" checked={formData.userType === 'professional'} onChange={handleChange} className="hidden" />
-                  Professional
-                </label>
-              </div>
-
-              {formData.userType === 'student' ? (
-                <>
-                  <div>
-                    <label className="block text-white text-sm mb-1.5">Institution Name</label>
-                    <input
-                      type="text"
-                      name="institution"
-                      value={formData.institution}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 bg-[#0f0f1a] border border-gray-700 rounded-xl focus:outline-none focus:border-blue-500 text-white placeholder-gray-500 text-sm"
-                      placeholder="Institution Name"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-white text-sm mb-1.5">Batch / Passing Year</label>
-                    <select
-                      name="batchYear"
-                      value={formData.batchYear}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 bg-[#0f0f1a] border border-gray-700 rounded-xl focus:outline-none focus:border-blue-500 text-white text-sm"
-                    >
-                      <option value="">Select Year</option>
-                      {batchYears.map(year => (
-                        <option key={year} value={year}>{year}</option>
-                      ))}
-                    </select>
-                  </div>
-                </>
-              ) : (
-                <div>
-                  <label className="block text-white text-sm mb-1.5">Organization / Company Name</label>
-                  <input
-                    type="text"
-                    name="companyName"
-                    value={formData.companyName}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 bg-[#0f0f1a] border border-gray-700 rounded-xl focus:outline-none focus:border-blue-500 text-white placeholder-gray-500 text-sm"
-                    placeholder="Organization / Company Name"
-                  />
-                </div>
-              )}
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+                className="input-dark"
+              />
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-blue-600 text-white font-semibold py-3.5 rounded-xl hover:bg-blue-700 transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed mt-2"
+                className="w-full bg-blue-600 py-3 rounded-xl text-white font-bold"
               >
-                {loading ? 'Creating account...' : 'Sign Up'}
+                {loading ? 'Creating...' : 'Sign Up'}
               </button>
             </form>
 
-            <div className="mt-4 text-center">
-              <span className="text-gray-500 text-sm">Or signup with</span>
-            </div>
-
+            {/* SOCIAL */}
             <div className="flex flex-col gap-3 mt-3">
               <button
                 onClick={handleGoogleAuth}
@@ -378,11 +216,9 @@ export default function Signup() {
                 Continue with Apple
               </button>
             </div>
-
-            <p className="mt-4 text-center text-gray-400 text-sm">
-              Already have an account?{' '}
-              <Link to="/login" className="text-blue-400 hover:text-blue-300">
-                Log in
+            <p className="text-center text-gray-400 mt-4">
+              Already have an account? <Link to="/login" className="text-[#3B82F6] hover:text-blue-300">
+                Login
               </Link>
             </p>
           </div>

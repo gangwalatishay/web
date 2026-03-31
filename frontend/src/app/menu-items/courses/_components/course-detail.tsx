@@ -46,9 +46,12 @@ export default function CourseDetail() {
         const response = await axios.get(`http://localhost:5000/api/courses/${courseId}`);
         setCourse(response.data);
         setError(null);
-      } catch (err: any) {
-        setError(err.response?.data?.error || "Failed to fetch course details");
-        setCourse(null);
+      } catch (err: unknown) {
+        if (axios.isAxiosError(err)) {
+          setError(err.response?.data?.error || 'Login failed');    
+        } else {
+          setError('Something went wrong');
+        }
       } finally {
         setLoading(false);
       }
@@ -231,7 +234,7 @@ export default function CourseDetail() {
                 />
               ) : (
                 <div className="w-full aspect-video bg-gray-900 flex flex-col items-center justify-center relative overflow-hidden">
-                  <div className="absolute inset-0 opacity-20 bg-gradient-to-br from-sky-500 to-purple-600" />
+                  <div className="absolute inset-0 opacity-20 bg-linear-to-br from-sky-500 to-purple-600" />
                   <PlayCircle className="w-20 h-20 text-sky-500/50 mb-4 z-10 group-hover:scale-110 transition-transform" />
                   <p className="text-gray-500 z-10 font-medium">Demo video coming soon</p>
                 </div>
