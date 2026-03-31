@@ -71,12 +71,7 @@ export default function Signup() {
         }
       );
 
-<<<<<<< HEAD
       const { token } = response.data;
-=======
-      const { token, user } = response.data;
-
->>>>>>> 7351d488c3a591a381239f8af663e40da8b20392
       localStorage.setItem('token', token);
 
       navigate('/profile');

@@ -64,12 +64,7 @@ export default function Login() {
         }
       );
 
-<<<<<<< HEAD
       const { token } = response.data;
-=======
-      const { token, user } = response.data;
-
->>>>>>> 7351d488c3a591a381239f8af663e40da8b20392
       localStorage.setItem('token', token);
 
       // ✅ Better UX than alert
