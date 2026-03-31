@@ -66,7 +66,7 @@ export default function CoursesList() {
                     <Button
                       variant="default"
                       size="lg"
-                      className="text-white bg-[#970747] hover:bg-[#970747] text-md px-2"
+                      className="text-white bg-[#3B82F6] hover:bg-[#2563EB] text-md px-2"
                       onClick={(e) => {
                         e.stopPropagation();
                         alert("Added to wishlist!");
@@ -77,7 +77,7 @@ export default function CoursesList() {
                     <Button
                       variant="default"
                       size="lg"
-                      className="text-white bg-[#970747] hover:bg-[#970747] text-md px-2"
+                      className="text-white bg-[#3B82F6] hover:bg-[#2563EB] text-md px-2"
                       onClick={(e) => {
                         e.stopPropagation();
                         alert("Downloading syllabus!");
@@ -88,7 +88,7 @@ export default function CoursesList() {
                     <Button
                       variant="outline"
                       size="lg"
-                      className="text-[#970747] hover:text-[#970747] bg-[#232949] hover:bg-[#232949] border-[#970747] text-md px-2"
+                      className="text-[#3B82F6] hover:text-[#2563EB] bg-[#232949] hover:bg-[#232949] border-[#3B82F6] text-md px-2"
                       onClick={(e) => {
                         e.stopPropagation();
                         alert("Added to cart!");

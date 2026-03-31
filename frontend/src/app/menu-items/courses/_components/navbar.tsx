@@ -59,33 +59,9 @@ export default function Navbar() {
               </NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <NavigationMenuTrigger>Schools & Institutions</NavigationMenuTrigger>
-              <NavigationMenuContent className="bg-[#0F1115] border-gray-800 text-white">
-                <div>
-                  <ul className="grid w-50 gap-0.5 md:w-125 md:grid-row-4 lg:w-100 h-40">
-                    <div className="flex items-center hover:bg-gray-400/10 p-1 rounded-sm">
-                      <a>Foundations Track</a>
-                    </div>
-                    <div className="flex items-center hover:bg-gray-400/10 p-1 rounded-sm">
-                      <a>Software Engineering Track</a>
-                    </div>
-                    <div className="flex items-center hover:bg-gray-400/10 p-1 rounded-sm">
-                      <a>Data & Analytics Track</a>
-                    </div>
-                    <div className="flex items-center hover:bg-gray-400/10 p-1 rounded-sm">
-                      <p className="text-gray-400 text-sm font-light">
-                        For other courses&nbsp;
-                        <Link
-                          to="/institutions"
-                          className="underline text-gray-400 text-sm font-light"
-                        >
-                          visit institutions page
-                        </Link>
-                      </p>
-                    </div>
-                  </ul>
-                </div>
-              </NavigationMenuContent>
+              <NavigationMenuLink className="hover:bg-[#1A1D23] hover:text-white">
+                <Link to="/institutions">Schools & Institutions</Link>
+              </NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
               <NavigationMenuTrigger>Students</NavigationMenuTrigger>
