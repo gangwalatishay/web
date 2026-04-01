@@ -156,13 +156,12 @@ export default function CourseDetail() {
       <div className="flex flex-col w-full min-h-screen bg-[#0F1115]">
         <Navbar />
         <div className="flex-1 flex items-center justify-center">
-          <div className="animate-pulse text-xl text-sky-400">Loading Course Details...</div>
+          <div className="animate-pulse text-xl text-[#3B82F6]">Loading Course Details...</div>
         </div>
         <Footer />
       </div>
     );
   }
-
   if (error || !course) {
     return (
       <div className="flex flex-col w-full min-h-screen bg-[#0F1115]">
@@ -173,7 +172,7 @@ export default function CourseDetail() {
             We couldn't find the course you're looking for. It might have been moved or doesn't exist.
           </p>
           <Link to="/courses">
-            <Button variant="outline" className="border-sky-500 text-sky-500 hover:bg-sky-500/10">
+            <Button variant="outline" className="border-[#3B82F6] text-[#3B82F6] hover:bg-[#2563EB]">
               ← Back to Courses
             </Button>
           </Link>
@@ -184,9 +183,8 @@ export default function CourseDetail() {
   }
 
   return (
-    <div className="flex flex-col w-full min-h-screen bg-[#0F1115] text-white">
+    <div className="flex flex-col items-center w-full min-h-screen bg-[#0F1115] text-white">
       <Navbar />
-      
       <main className="flex-1 w-full max-w-7xl mx-auto px-4 md:px-8 lg:px-12 pt-28 pb-20">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           
@@ -194,11 +192,11 @@ export default function CourseDetail() {
           <div className="lg:col-span-2 space-y-10">
             <div>
               <nav className="flex mb-6 text-sm text-gray-500 gap-2">
-                <Link to="/" className="hover:text-sky-400">Home</Link>
+                <Link to="/" className="hover:text-[#3B82F6]">Home</Link>
                 <span>/</span>
-                <Link to="/courses" className="hover:text-sky-400">Courses</Link>
+                <Link to="/courses" className="hover:text-[#3B82F6]">Courses</Link>
                 <span>/</span>
-                <span className="text-sky-400 truncate">{course.title}</span>
+                <span className="text-[#3B82F6] truncate">{course.title}</span>
               </nav>
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-6 leading-tight">
                 {course.title}
@@ -209,15 +207,15 @@ export default function CourseDetail() {
               
               <div className="flex flex-wrap gap-6 text-sm text-gray-300">
                 <div className="flex items-center gap-2">
-                  <Clock className="w-5 h-5 text-sky-500" />
+                  <Clock className="w-5 h-5 text-[#3B82F6]" />
                   <span>Self-paced Learning</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <BarChart className="w-5 h-5 text-sky-500" />
+                  <BarChart className="w-5 h-5 text-[#3B82F6]" />
                   <span>Beginner to Advanced</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <BookOpen className="w-5 h-5 text-sky-500" />
+                  <BookOpen className="w-5 h-5 text-[#3B82F6]" />
                   <span>Hands-on Projects</span>
                 </div>
               </div>
@@ -234,8 +232,8 @@ export default function CourseDetail() {
                 />
               ) : (
                 <div className="w-full aspect-video bg-gray-900 flex flex-col items-center justify-center relative overflow-hidden">
-                  <div className="absolute inset-0 opacity-20 bg-linear-to-br from-sky-500 to-purple-600" />
-                  <PlayCircle className="w-20 h-20 text-sky-500/50 mb-4 z-10 group-hover:scale-110 transition-transform" />
+                  <div className="absolute inset-0 opacity-20 bg-linear-to-br from-[#3B82F6] to-purple-600" />
+                  <PlayCircle className="w-20 h-20 text-[#3B82F6]/50 mb-4 z-10 group-hover:scale-110 transition-transform" />
                   <p className="text-gray-500 z-10 font-medium">Demo video coming soon</p>
                 </div>
               )}
@@ -244,12 +242,12 @@ export default function CourseDetail() {
             {/* FEATURES SECTION */}
             <div className="space-y-6">
               <h2 className="text-2xl font-bold flex items-center gap-3">
-                <CheckCircle2 className="w-6 h-6 text-sky-500" />
+                <CheckCircle2 className="w-6 h-6 text-[#3B82F6]" />
                 What you'll learn
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {course.features.map((feature, index) => (
-                  <div key={index} className="flex items-start gap-3 bg-[#1A1D23] p-4 rounded-xl border border-gray-800 hover:border-sky-500/30 transition-colors">
+                  <div key={index} className="flex items-start gap-3 bg-[#1A1D23] p-4 rounded-xl border border-gray-800 hover:border-[#3B82F6]/30 transition-colors">
                     <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
                     <span className="text-gray-300 leading-snug">{feature}</span>
                   </div>
@@ -260,9 +258,9 @@ export default function CourseDetail() {
 
           {/* RIGHT COLUMN: STICKY SIDEBAR */}
           <div className="lg:col-span-1">
-            <div className="sticky top-28 bg-[#1A1D23] rounded-2xl border border-gray-800 p-8 shadow-2xl space-y-8">
+            <div className="sticky top-83 bg-[#1A1D23] rounded-2xl border border-gray-800 p-8 shadow-2xl space-y-8">
               <div className="space-y-2 text-center lg:text-left">
-                <span className="text-sky-500 text-sm font-bold tracking-widest uppercase">Premium Course</span>
+                <span className="text-[#3B82F6] text-sm font-bold tracking-widest uppercase">Premium Course</span>
                 <div className="text-4xl font-black text-white">{course.price}</div>
                 <p className="text-gray-500 text-sm italic">Lifetime access & future updates</p>
               </div>
@@ -270,7 +268,7 @@ export default function CourseDetail() {
               <div className="space-y-3">
                 <Button 
                   onClick={handleBuy}
-                  className="w-full h-14 bg-sky-600 hover:bg-sky-500 text-white font-bold text-lg rounded-xl shadow-lg shadow-sky-600/20 transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3"
+                  className="w-full h-14 bg-[#3B82F6] hover:bg-[#2563EB] text-white font-bold text-lg rounded-xl shadow-lg shadow-[#3B82F6]/20 transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3"
                 >
                   <ShoppingCart className="w-6 h-6" />
                   Enroll Now

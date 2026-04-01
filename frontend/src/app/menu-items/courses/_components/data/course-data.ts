@@ -32,7 +32,10 @@ export type Course = {
   title: string,      // main heading
   price: string,
   image: string,
-  features: string[] // 2 short points
+  video: string,      // just like image
+  description: string,
+  features: string[], // 2 short ,points
+  Syllabus: string[]
 };
 
 export type CourseGroup = {
@@ -51,28 +54,40 @@ export const courseGroups: CourseGroup[] = [
         title: "Programming with Python U+002d Beginner to Advanced",
         price: "Rs14,999/+",
         image: course1,
-        features: ["Beginner to Advanced", "Hands-on Projects"]
+        video: "",
+        description: "",
+        features: ["Beginner to Advanced", "Hands-on Projects"],
+        Syllabus: [""],
       },
       {
         id: 2,
         title: "Data Structures & Algorithms Mastery",
         price: "Rs14,999/+",
         image: course2,
-        features: ["Core DSA Concepts", "Interview Preparation"]
+        video: "",
+        description: "",
+        features: ["Core DSA Concepts", "Interview Preparation"],
+        Syllabus: [""],
       },
       {
         id: 3,
         title: "System Design Fundamentals",
         price: "Rs14,999/+",
         image: course3,
-        features: ["Scalable Systems", "Real-world Cases"]
+        video: "",
+        description: "",
+        features: ["Scalable Systems", "Real-world Cases"],
+        Syllabus: [""],
       },
       {
         id: 4,
         title: "Git, Linux & Developer Tools Bootcamp",
         price: "Rs14,999/+",
         image: course4,
-        features: ["Version Control", "CLI Mastery"]
+        video: "",
+        description: "",
+        features: ["Version Control", "CLI Mastery"],
+        Syllabus: [""],
       },
     ],
   },
@@ -85,35 +100,50 @@ export const courseGroups: CourseGroup[] = [
         title: "Java Full Stack Development Program",
         price: "Rs14,999/+",
         image: course5,
-        features: ["Frontend + Backend", "Project Based"]
+        video: "",
+        description: "",
+        features: ["Frontend + Backend", "Project Based"],
+        Syllabus: [""],
       },
       {
         id: 6,
         title: "Backend Engineering with Spring Boot",
         price: "Rs14,999/+",
         image: course6,
-        features: ["REST APIs", "Spring Ecosystem"]
+        video: "",
+        description: "",
+        features: ["REST APIs", "Spring Ecosystem"],
+        Syllabus: [""],
       },
       {
         id: 7,
         title: "Frontend Engineering with React",
         price: "Rs14,999/+",
         image: course7,
-        features: ["Modern UI", "State Management"]
+        video: "",
+        description: "",
+        features: ["Modern UI", "State Management"],
+        Syllabus: [""],
       },
       {
         id: 8,
         title: "REST API & Microservices Development",
         price: "Rs14,999/+",
         image: course8,
-        features: ["Microservices", "API Design"]
+        video: "",
+        description: "",
+        features: ["Microservices", "API Design"],
+        Syllabus: [""],
       },
       {
         id: 9,
         title: "DevOps & Cloud Deployment (Docker + AWS)",
         price: "Rs14,999/+",
         image: course9,
-        features: ["CI/CD Pipelines", "Cloud Deployment"]
+        video: "",
+        description: "",
+        features: ["CI/CD Pipelines", "Cloud Deployment"],
+        Syllabus: [""],
       },
     ],
   },
@@ -126,35 +156,50 @@ export const courseGroups: CourseGroup[] = [
         title: "Data Analytics Professional Program",
         price: "Rs14,999/+",
         image: course10,
-        features: ["Data Cleaning", "Visualization"]
+        video: "",
+        description: "",
+        features: ["Data Cleaning", "Visualization"],
+        Syllabus: [""],
       },
       {
         id: 11,
         title: "SQL for Data Professionals",
         price: "Rs14,999/+",
         image: course11,
-        features: ["Advanced Queries", "Database Design"]
+        video: "",
+        description: "",
+        features: ["Advanced Queries", "Database Design"],
+        Syllabus: [""],
       },
       {
         id: 12,
         title: "Advanced Excel for Business Intelligence",
         price: "Rs14,999/+",
         image: course12,
-        features: ["Dashboards", "Automation"]
+        video: "",
+        description: "",
+        features: ["Dashboards", "Automation"],
+        Syllabus: [""],
       },
       {
         id: 13,
         title: "Power BI & Tableau Dashboard Mastery",
         price: "Rs14,999/+",
         image: course13,
-        features: ["Data Visualization", "Interactive Reports"]
+        video: "",
+        description: "",
+        features: ["Data Visualization", "Interactive Reports"],
+        Syllabus: [""],
       },
       {
         id: 14,
         title: "Data Engineering with Kafka & Spark",
         price: "Rs14,999/+",
         image: course14,
-        features: ["Big Data", "Stream Processing"]
+        video: "",
+        description: "",
+        features: ["Big Data", "Stream Processing"],
+        Syllabus: [""],
       },
     ],
   },
@@ -167,28 +212,40 @@ export const courseGroups: CourseGroup[] = [
         title: "Machine Learning Engineering Program",
         price: "Rs14,999/+",
         image: course15,
-        features: ["ML Models", "Deployment"]
+        video: "",
+        description: "",
+        features: ["ML Models", "Deployment"],
+        Syllabus: [""],
       },
       {
         id: 16,
         title: "Deep Learning & Computer Vision",
         price: "Rs14,999/+",
         image: course16,
-        features: ["CNNs", "Image Processing"]
+        video: "",
+        description: "",
+        features: ["CNNs", "Image Processing"],
+        Syllabus: [""],
       },
       {
         id: 17,
         title: "MLOps & Production ML Systems",
         price: "Rs14,999/+",
         image: course17,
-        features: ["Model Lifecycle", "CI/CD for ML"]
+        video: "",
+        description: "",
+        features: ["Model Lifecycle", "CI/CD for ML"],
+        Syllabus: [""],
       },
       {
         id: 18,
         title: "AI Model Deployment",
         price: "Rs14,999/+",
         image: course18,
-        features: ["APIs", "Scalable Serving"]
+        video: "",
+        description: "",
+        features: ["APIs", "Scalable Serving"],
+        Syllabus: [""],
       },
     ],
   },
@@ -201,21 +258,30 @@ export const courseGroups: CourseGroup[] = [
         title: "Generative AI Engineering Program",
         price: "Rs14,999/+",
         image: course19,
-        features: ["LLMs", "AI Applications"]
+        video: "",
+        description: "",
+        features: ["LLMs", "AI Applications"],
+        Syllabus: [""],
       },
       {
         id: 20,
         title: "Transformer Architecture & LLM Fundamentals",
         price: "Rs14,999/+",
         image: course20,
-        features: ["Transformers", "Attention Mechanism"]
+        video: "",
+        description: "",
+        features: ["Transformers", "Attention Mechanism"],
+        Syllabus: [""],
       },
       {
         id: 21,
         title: "Retrieval-Augmented Generation (RAG) Systems",
         price: "Rs14,999/+",
         image: course21,
-        features: ["RAG Pipelines", "Knowledge Retrieval"]
+        video: "",
+        description: "",
+        features: ["RAG Pipelines", "Knowledge Retrieval"],
+        Syllabus: [""],
       },
     ],
   },
@@ -228,21 +294,30 @@ export const courseGroups: CourseGroup[] = [
         title: "Multi-Agent Architectures",
         price: "Rs14,999/+",
         image: course22,
-        features: ["Agent Systems", "Coordination"]
+        video: "",
+        description: "",
+        features: ["Agent Systems", "Coordination"],
+        Syllabus: [""],
       },
       {
         id: 23,
         title: "Agentic AI",
         price: "Rs14,999/+",
         image: course23,
-        features: ["Autonomous Agents", "Decision Making"]
+        video: "",
+        description: "",
+        features: ["Autonomous Agents", "Decision Making"],
+        Syllabus: [""],
       },
       {
         id: 24,
         title: "Advanced AI System Design",
         price: "Rs14,999/+",
         image: course24,
-        features: ["AI Architecture", "Scalability"]
+        video: "",
+        description: "",
+        features: ["AI Architecture", "Scalability"],
+        Syllabus: [""],
       },
     ],
   },
@@ -255,28 +330,40 @@ export const courseGroups: CourseGroup[] = [
         title: "FAANG Interview Preparation (DSA + System Design)",
         price: "Rs14,999/+",
         image: course25,
-        features: ["Mock Interviews", "Problem Solving"]
+        video: "",
+        description: "",
+        features: ["Mock Interviews", "Problem Solving"],
+        Syllabus: [""],
       },
       {
         id: 26,
         title: "AI Startup Builder Program",
         price: "Rs14,999/+",
         image: course26,
-        features: ["Startup Strategy", "MVP Building"]
+        video: "",
+        description: "",
+        features: ["Startup Strategy", "MVP Building"],
+        Syllabus: [""],
       },
       {
         id: 27,
         title: "Resume, LinkedIn & Personal Branding Mastery",
         price: "Rs14,999/+",
         image: course27,
-        features: ["Resume Building", "LinkedIn Growth"]
+        video: "",
+        description: "",
+        features: ["Resume Building", "LinkedIn Growth"],
+        Syllabus: [""],
       },
       {
         id: 28,
         title: "Open Source & Research Publishing Bootcamp",
         price: "Rs14,999/+",
         image: course28,
-        features: ["Open Source", "Research Writing"]
+        video: "",
+        description: "",
+        features: ["Open Source", "Research Writing"],
+        Syllabus: [""],
       },
     ],
   },
