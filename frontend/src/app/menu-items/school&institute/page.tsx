@@ -1,9 +1,8 @@
 import Hero from "./_components/hero";
-import WhatIs from "./_components/what-is";
-import HowItWorks from "./_components/how-it-works";
-import Benefits from "./_components/benefits";
-import Outcomes from "./_components/outcomes";
-import CTA from "./_components/cta";
+import ProgramOverview from "./_components/ProgramOverview";
+import GenAISection from "./_components/GenAISection";
+import PythonSection from "./_components/PythonSection";
+import CollaborationForm from "./_components/CollaborationForm";
 
 import "../../../styles/student&instute.css";
 
@@ -11,11 +10,10 @@ export default function InstitutionsPage() {
   return (
     <div className="bg-[#0F1115] text-white">
       <Hero />
-      <WhatIs />
-      <HowItWorks />
-      <Benefits />
-      <Outcomes />
-      <CTA />
+      <ProgramOverview />
+      <GenAISection />
+      <PythonSection />
+      <CollaborationForm />
     </div>
   );
 }
