@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -10,9 +11,15 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { Mail, MapPin, Phone } from "lucide-react"
+import {
+  Mail,
+  MapPin,
+  Phone
+} from "lucide-react"
 import { useState } from "react"
 import axios from "axios"
+
+import { toast } from 'react-toastify';
 
 const courses = [
   "Programming with Python – Beginner to Advanced",
@@ -69,7 +76,7 @@ export default function Contact() {
       })
       setTimeout(() => setSuccess(false), 3000)
     } catch (error) {
-      alert("Failed to send request. Please try again.")
+      toast.error("Failed to send request. Please try again.")
     } finally {
       setLoading(false)
     }
@@ -171,7 +178,7 @@ export default function Contact() {
               <SelectTrigger className="w-full max-w-180 relative z-10">
                 <SelectValue placeholder="Select a course" />
               </SelectTrigger>
-              <SelectContent className="z-50">
+              <SelectContent className="z-9999">
                 <SelectGroup>
                   <SelectLabel>Courses</SelectLabel>
                   {courses.map((course) => (

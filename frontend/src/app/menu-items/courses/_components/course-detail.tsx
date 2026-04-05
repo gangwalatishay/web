@@ -7,6 +7,9 @@ import { Button } from "@/components/ui/button";
 import { ShoppingCart, Heart, FileText, CheckCircle2, PlayCircle, BookOpen, Clock, BarChart } from "lucide-react";
 import { loadRazorpayCheckout, openCheckout } from "@/lib/razorpay";
 
+
+import { toast } from 'react-toastify';
+
 type CourseItem = {
   courseId: string;
   price: string;
@@ -67,7 +70,7 @@ export default function CourseDetail() {
     const token = localStorage.getItem("token");
     
     if (!token) {
-      alert("Please login to enroll in this course.");
+      toast.error("Please login to enroll in this course.");
       navigate("/login");
       return;
     }
@@ -80,7 +83,7 @@ export default function CourseDetail() {
       currentUser = response.data.user;
     } catch (err) {
       console.error("Error fetching user for order:", err);
-      alert("Session expired or invalid. Please login again.");
+      toast.error("Session expired or invalid. Please login again.");
       localStorage.removeItem("token");
       navigate("/login");
       return;
@@ -88,7 +91,7 @@ export default function CourseDetail() {
 
     const userId = currentUser.id || currentUser._id;
     if (!userId) {
-      alert("User identification failed. Please login again.");
+      toast.error("User identification failed. Please login again.");
       navigate("/login");
       return;
     }
@@ -97,7 +100,7 @@ export default function CourseDetail() {
 
     const loaded = await loadRazorpayCheckout();
     if (!loaded) {
-      alert("Failed to load Razorpay. Please check your internet connection.");
+      toast.error("Failed to load Razorpay. Please check your internet connection.");
       return;
     }
 
@@ -134,20 +137,20 @@ export default function CourseDetail() {
               userId,
             });
             if (verify.data?.success) {
-              alert("Payment successful! Course has been added to your profile.");
+              toast.error("Payment successful! Course has been added to your profile.");
             }
           } catch (err) {
             console.error("Verification error:", err);
-            alert("Payment verification failed. Please contact support.");
+            toast.error("Payment verification failed. Please contact support.");
           }
         },
         () => {
-          alert("Payment cancelled or failed. Please try again.");
+          toast.error("Payment cancelled or failed. Please try again.");
         }
       );
     } catch (err) {
       console.error("Order creation error:", err);
-      alert("Failed to initiate payment. Please try again later.");
+      toast.error("Failed to initiate payment. Please try again later.");
     }
   }
 

@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import {
+  Link,
+  useNavigate
+} from 'react-router-dom';
 import axios from 'axios';
 
 import loginIllustration from '@/assets/login-illustration.png';
 import { Logo } from '@/components/logo';
+
+import { toast } from 'react-toastify';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -14,7 +19,6 @@ export default function Login() {
     password: ''
   });
 
-  const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
   const countryCodes = [
@@ -42,11 +46,10 @@ export default function Login() {
   // ✅ FIX 4: Proper async handling
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
     setLoading(true);
 
     if (!formData.mobileNumber || !formData.password) {
-      setError('Please fill in all fields');
+      toast.error('Please fill in all fields');
       setLoading(false);
       return;
     }
@@ -72,9 +75,9 @@ export default function Login() {
 
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
-        setError(err.response?.data?.error || 'Login failed');
+        toast.error(err.response?.data?.error || 'Login failed');
       } else {
-        setError('Something went wrong');
+        toast.error('Something went wrong');
       }
     } finally {
       setLoading(false);
@@ -128,11 +131,6 @@ export default function Login() {
             <p className="text-center text-gray-400 mb-6">
               Login to continue your journey
             </p>
-            {error && (
-              <div className="bg-red-500/20 border border-red-500/50 text-red-300 px-4 py-3 rounded-xl mb-4 text-sm text-center">
-                {error}
-              </div>
-            )}
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="block text-white text-sm mb-1.5">

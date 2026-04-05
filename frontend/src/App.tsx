@@ -8,7 +8,7 @@ import Page from "./app/page";
 import Courses from "./app/menu-items/courses/courses";
 import Gallery from "./app/menu-items/gallery/gallerypage";
 
-import ProfilePage from "./app/profile/page";
+// import ProfilePage from "./app/profile/page";
 import CourseDetail from "./app/menu-items/courses/_components/course-detail";
 import Login from "./auth/Login";
 import Signup from "./auth/Signup";
@@ -28,7 +28,7 @@ export default function App() {
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/about" element={<About />} />
 
-          <Route path="/profile" element={<ProfilePage />} />
+          {/* <Route path="/profile" element={<ProfilePage />} /> */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />

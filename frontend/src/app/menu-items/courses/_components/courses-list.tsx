@@ -4,6 +4,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { courseGroups } from "./data/course-data";
 
+import { toast } from "react-toastify";
+
 export default function CoursesList() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -69,7 +71,7 @@ export default function CoursesList() {
                       className="text-white bg-[#3B82F6] hover:bg-[#2563EB] text-md px-2"
                       onClick={(e) => {
                         e.stopPropagation();
-                        alert("Added to wishlist!");
+                        toast.success("Added to wishlist!");
                       }}
                     >
                       WishList
@@ -80,7 +82,7 @@ export default function CoursesList() {
                       className="text-white bg-[#3B82F6] hover:bg-[#2563EB] text-md px-2"
                       onClick={(e) => {
                         e.stopPropagation();
-                        alert("Downloading syllabus!");
+                        toast.success("Downloading syllabus!");
                       }}
                     >
                       Syllabus
@@ -91,7 +93,7 @@ export default function CoursesList() {
                       className="text-[#3B82F6] hover:text-[#2563EB] bg-[#232949] hover:bg-[#232949] border-[#3B82F6] text-md px-2"
                       onClick={(e) => {
                         e.stopPropagation();
-                        alert("Added to cart!");
+                        toast.success("Added to cart!");
                       }}
                     >
                       Add to cart

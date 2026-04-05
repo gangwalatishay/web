@@ -1,109 +1,69 @@
-import { useState } from "react";
-import CourseCard from "./_components/course-card";
-import ProfileLayout from "./_components/profile-layout";
-import StatsCard from "./_components/stats-card";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-interface ProfileData {
-  role: "student" | "professional";
-  institution?: string;
-  batchYear?: string;
-  companyName?: string;
-}
+import ProfileHeader from "./_components/profile-header";
+import StudentDashboard from "./_components/student-dashboard";
+import ProfessorDashboard from "./_components/professor-dashboard";
+import ProfileSettings from "./_components/profile-settings";
+import ProfileSidebar from "./_components/sidebar";
 
 export default function ProfilePage() {
 
-  const [profileData, setProfileData] = useState<ProfileData>({
-    role: "student"
-  });
+  const navigate = useNavigate();
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setProfileData({
-      ...profileData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const [user, setUser] = useState<any>(null);
+  const [activeTab, setActiveTab] = useState("dashboard");
 
-  const handleSave = () => {
-    console.log(profileData);
-  };
+  useEffect(() => {
+    const storedUser = localStorage.getItem("currentUser");
+
+    if (!storedUser) {
+      navigate("/login");
+      return;
+    }
+
+    setUser(JSON.parse(storedUser));
+  }, []);
+
+  if (!user) return null;
 
   return (
-    <ProfileLayout>
+    <div className="flex min-h-screen bg-[#0F1115] text-white">
 
-      <div className="max-w-6xl mx-auto">
+      {/* ✅ PROFILE SIDEBAR */}
+      <ProfileSidebar
+        role={user.role}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+      />
 
-        {/* HEADER */}
-        <h1 className="text-3xl font-bold text-white mb-10">
-          My Profile
-        </h1>
+      {/* MAIN CONTENT */}
+      <main className="flex-1 p-8">
 
-        {/* PROFILE CARD */}
-        <div className="bg-[#18181B] p-8 rounded-3xl border border-gray-800 mb-12">
+        <div className="max-w-6xl mx-auto space-y-10">
 
-          <h2 className="text-xl font-semibold text-white mb-6">
-            Complete Your Profile
-          </h2>
+          <ProfileHeader user={user} />
 
-          {/* ROLE DISPLAY */}
-          <div className="mb-6 text-sm text-gray-400">
-            Role: <span className="text-white font-medium">{profileData.role}</span>
-          </div>
+          {/* 🔄 TAB SWITCHING */}
+          {activeTab === "dashboard" && (
+            user.role === "student"
+              ? <StudentDashboard />
+              : <ProfessorDashboard />
+          )}
 
-          <div className="grid md:grid-cols-2 gap-6">
+          {activeTab === "courses" && <div>Courses UI here</div>}
 
-            {profileData.role === "student" && (
-              <>
-                <input
-                  name="institution"
-                  placeholder="Institution Name"
-                  onChange={handleChange}
-                  className="input-dark"
-                />
+          {activeTab === "certificates" && <div>Certificates UI here</div>}
 
-                <input
-                  name="batchYear"
-                  placeholder="Batch Year"
-                  onChange={handleChange}
-                  className="input-dark"
-                />
-              </>
-            )}
+          {activeTab === "teachings" && <div>Teachings UI here</div>}
 
-            {profileData.role === "professional" && (
-              <input
-                name="companyName"
-                placeholder="Company Name"
-                onChange={handleChange}
-                className="input-dark"
-              />
-            )}
-          </div>
-          <button
-            onClick={handleSave}
-            className="mt-6 bg-blue-600 px-6 py-3 rounded-xl text-white font-semibold"
-          >
-            Save Profile
-          </button>
+          {activeTab === "settings" && (
+            <ProfileSettings role={user.role} />
+          )}
+
         </div>
-        {/* STATS */}
-        <div className="grid md:grid-cols-4 gap-6 mb-16">
-          <StatsCard title="Courses Enrolled" value="12" />
-          <StatsCard title="Completed" value="5" />
-          <StatsCard title="Certificates" value="3" />
-          <StatsCard title="Hours" value="48h" />
-        </div>
-        {/* LEARNING */}
-        <h2 className="text-xl font-semibold text-white mb-6">
-          Continue Learning
-        </h2>
-        <div className="grid md:grid-cols-3 gap-6">
-          <CourseCard title="React Mastery" progress={70} />
-          <CourseCard title="Machine Learning" progress={45} />
-          <CourseCard title="Next.js" progress={90} />
-        </div>
-      </div>
-    </ProfileLayout>
+
+      </main>
+    </div>
   );
 }

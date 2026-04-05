@@ -8,6 +8,8 @@ import { Logo } from '@/components/logo';
 
 import "../styles/auth.css";
 
+import { toast } from 'react-toastify';
+
 type Role = "student" | "professional";
 
 export default function Signup() {
@@ -20,7 +22,6 @@ export default function Signup() {
     role: 'student' as Role
   });
 
-  const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,12 +51,11 @@ export default function Signup() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
     setLoading(true);
 
     const validationError = validate();
     if (validationError) {
-      setError(validationError);
+      toast.error(validationError);
       setLoading(false);
       return;
     }
@@ -78,9 +78,9 @@ export default function Signup() {
 
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
-        setError(err.response?.data?.error || 'Signup failed');
+        toast.error(err.response?.data?.error || 'Signup failed');
       } else {
-        setError('Something went wrong');
+        toast.error('Something went wrong');
       }
     } finally {
       setLoading(false);
@@ -145,31 +145,23 @@ export default function Signup() {
                 Professor
               </button>
             </div>
-
-            {error && (
-              <div className="bg-red-500/20 text-red-300 p-3 rounded-xl mt-4 text-sm text-center">
-                {error}
-              </div>
-            )}
-
             <form onSubmit={handleSubmit} className="space-y-4 mt-6">
-
               <input
                 name="fullName"
                 placeholder="Full Name"
                 value={formData.fullName}
                 onChange={handleChange}
                 className="input-dark"
+                required
               />
-
               <input
                 name="email"
                 placeholder="Email"
                 value={formData.email}
                 onChange={handleChange}
                 className="input-dark"
+                required
               />
-
               <input
                 type="password"
                 name="password"
@@ -177,8 +169,8 @@ export default function Signup() {
                 value={formData.password}
                 onChange={handleChange}
                 className="input-dark"
+                required
               />
-
               <button
                 type="submit"
                 disabled={loading}
@@ -187,7 +179,6 @@ export default function Signup() {
                 {loading ? 'Creating...' : 'Sign Up'}
               </button>
             </form>
-
             {/* SOCIAL */}
             <div className="flex flex-col gap-3 mt-3">
               <button
