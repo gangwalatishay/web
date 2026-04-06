@@ -15,11 +15,16 @@ type Role = "student" | "professional";
 export default function Signup() {
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    fullName: string;
+    email: string;
+    password: string;
+    role: Role;
+  }>({
     fullName: '',
     email: '',
     password: '',
-    role: 'student' as Role
+    role: 'student'
   });
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -99,7 +104,9 @@ export default function Signup() {
     <div className="min-h-screen bg-[#0F1115] flex flex-col">
 
       <nav className="flex items-center justify-between px-8 py-4">
-        <Link to="/"><Logo /></Link>
+        <Link to="/">
+          <Logo />
+        </Link>
       </nav>
 
       <div className="flex-1 flex">

@@ -23,8 +23,8 @@ async function signup(req, res) {
     const { name, email, password, mobile, role, institution, batchYear, companyName } = req.body;
 
     // Validation
-    if (!name || !email || !password || !mobile) {
-      return res.status(400).json({ error: 'Name, email, password, and mobile are required' });
+    if (!name || !email || !password) {
+      return res.status(400).json({ error: 'Name, email, and password are required' });
     }
 
     // Check if user exists
