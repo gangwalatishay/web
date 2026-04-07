@@ -2,7 +2,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const User = require('../models/User');
-const { isMongoEnabled } = require('../config/db');
 
 // Helper function to generate JWT token
 const generateJWTToken = (user) => {
@@ -13,13 +12,12 @@ const generateJWTToken = (user) => {
   );
 };
 
+// Allowed roles
+const allowedRoles = ['student', 'professional'];
+
 // Signup
 async function signup(req, res) {
   try {
-    if (!isMongoEnabled) {
-      return res.status(503).json({ error: 'Database not available' });
-    }
-
     const { name, email, password, mobile, role, institution, batchYear, companyName } = req.body;
 
     // Validation
@@ -27,8 +25,15 @@ async function signup(req, res) {
       return res.status(400).json({ error: 'Name, email, and password are required' });
     }
 
-    // Check if user exists
-    const existingUser = await User.findOne({ $or: [{ email }, { mobile }] });
+    // FIX: secure role handling
+    const finalRole = allowedRoles.includes(role) ? role : 'student';
+
+    // FIX: safe duplicate check
+    const query = [{ email }];
+    if (mobile) query.push({ mobile });
+
+    const existingUser = await User.findOne({ $or: query });
+
     if (existingUser) {
       return res.status(400).json({ error: 'User with this email or mobile already exists' });
     }
@@ -42,7 +47,7 @@ async function signup(req, res) {
       email,
       password: hashedPassword,
       mobile,
-      role: role || 'student',
+      role: finalRole,
       institution: institution || '',
       batchYear: batchYear || '',
       companyName: companyName || '',
@@ -65,6 +70,7 @@ async function signup(req, res) {
         role: newUser.role
       }
     });
+
   } catch (error) {
     console.error('Signup error:', error);
     res.status(500).json({ error: 'Error creating user' });
@@ -74,19 +80,15 @@ async function signup(req, res) {
 // Login
 async function login(req, res) {
   try {
-    if (!isMongoEnabled) {
-      return res.status(503).json({ error: 'Database not available' });
-    }
-
     const { email, mobile, password } = req.body;
 
     if ((!email && !mobile) || !password) {
       return res.status(400).json({ error: 'Email/mobile and password are required' });
     }
 
-    // Find user by email or mobile
     const query = email ? { email } : { mobile };
     console.log('Login attempt with query:', JSON.stringify(query));
+
     const user = await User.findOne(query);
 
     if (!user) {
@@ -94,14 +96,13 @@ async function login(req, res) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    // Compare password
     const isMatch = await bcrypt.compare(password, user.password);
     console.log('Password match result:', isMatch);
+
     if (!isMatch) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    // Generate token
     const token = generateJWTToken(user);
 
     res.json({
@@ -115,6 +116,7 @@ async function login(req, res) {
         role: user.role
       }
     });
+
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({ error: 'Error during login' });
@@ -124,10 +126,6 @@ async function login(req, res) {
 // Forgot Password
 async function forgotPassword(req, res) {
   try {
-    if (!isMongoEnabled) {
-      return res.status(503).json({ error: 'Database not available' });
-    }
-
     const { email } = req.body;
 
     if (!email) {
@@ -135,26 +133,25 @@ async function forgotPassword(req, res) {
     }
 
     const user = await User.findOne({ email });
+
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    // Generate reset token
     const resetToken = crypto.randomBytes(32).toString('hex');
     const resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex');
-    const resetPasswordExpires = Date.now() + 3600000; // 1 hour
+    const resetPasswordExpires = Date.now() + 3600000;
 
-    // Save to user
     user.resetPasswordToken = resetPasswordToken;
     user.resetPasswordExpires = resetPasswordExpires;
+
     await user.save();
 
-    // TODO: Send email with reset link
-    // For now, return the token (in production, send via email)
     res.json({
       message: 'Password reset link sent',
-      resetToken: resetToken // In production, don't return this, send via email
+      resetToken // ⚠️ REMOVE IN PRODUCTION
     });
+
   } catch (error) {
     console.error('Forgot password error:', error);
     res.status(500).json({ error: 'Error processing request' });
@@ -164,18 +161,14 @@ async function forgotPassword(req, res) {
 // Reset Password
 async function resetPassword(req, res) {
   try {
-    if (!isMongoEnabled) {
-      return res.status(503).json({ error: 'Database not available' });
-    }
-
     const { token, newPassword } = req.body;
 
     if (!token || !newPassword) {
       return res.status(400).json({ error: 'Token and new password are required' });
     }
 
-    // Hash token and find user
     const resetPasswordToken = crypto.createHash('sha256').update(token).digest('hex');
+
     const user = await User.findOne({
       resetPasswordToken,
       resetPasswordExpires: { $gt: Date.now() }
@@ -185,14 +178,16 @@ async function resetPassword(req, res) {
       return res.status(400).json({ error: 'Invalid or expired token' });
     }
 
-    // Hash new password and save
     const hashedPassword = await bcrypt.hash(newPassword, 10);
+
     user.password = hashedPassword;
     user.resetPasswordToken = null;
     user.resetPasswordExpires = null;
+
     await user.save();
 
     res.json({ message: 'Password reset successful' });
+
   } catch (error) {
     console.error('Reset password error:', error);
     res.status(500).json({ error: 'Error resetting password' });
@@ -202,23 +197,22 @@ async function resetPassword(req, res) {
 // Get current user
 async function getMe(req, res) {
   try {
-    if (!isMongoEnabled) {
-      return res.status(503).json({ error: 'Database not available' });
-    }
+    const user = await User.findById(req.user.id)
+      .select('-password -resetPasswordToken -resetPasswordExpires');
 
-    const user = await User.findById(req.user.id).select('-password -resetPasswordToken -resetPasswordExpires');
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
 
     res.json({ user });
+
   } catch (error) {
     console.error('Get user error:', error);
     res.status(500).json({ error: 'Error fetching user' });
   }
 }
 
-// Legacy functions (keep for compatibility)
+// Legacy functions (UNCHANGED)
 async function hashPassword(req, res) {
   try {
     const { password } = req.body;
@@ -270,4 +264,3 @@ module.exports = {
   comparePassword,
   generateToken
 };
-
