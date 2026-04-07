@@ -1,15 +1,23 @@
 export default function GenAISection() {
   return (
-    <section className="px-6 md:px-16 py-16">
-      <h2 className="text-2xl font-semibold mb-6">GenAI Programme</h2>
+    <section className="py-20 px-6">
 
-      <ul className="space-y-3 text-gray-400">
-        <li><strong>What it is:</strong> Introduction to AI tools and prompt engineering</li>
-        <li><strong>How it works:</strong> Live + practical sessions</li>
-        <li><strong>Prerequisites:</strong> Basic computer knowledge</li>
-        <li><strong>Benefits:</strong> Creativity, innovation, AI exposure</li>
-        <li><strong>Outcomes:</strong> Build AI mini projects</li>
-      </ul>
+      <h2 className="text-4xl font-bold mb-6 text-blue-400">
+        Class 8: AI & Python Innovation Bootcamp
+      </h2>
+
+      <p className="text-gray-300 mb-6 max-w-4xl">
+        Beginner-friendly program introducing AI, Python, and creative tools through hands-on learning.
+      </p>
+
+      <div className="grid md:grid-cols-2 gap-4 text-gray-300">
+        <p>✔ CBSE-aligned AI concepts</p>
+        <p>✔ Beginner-friendly Python</p>
+        <p>✔ Prompt Engineering basics</p>
+        <p>✔ 5+ mini projects + final project</p>
+        <p>✔ Tools: ChatGPT, Canva AI</p>
+      </div>
+
     </section>
   );
 }

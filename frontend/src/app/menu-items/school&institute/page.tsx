@@ -5,10 +5,12 @@ import PythonSection from "./_components/PythonSection";
 import CollaborationForm from "./_components/CollaborationForm";
 
 import "../../../styles/student&instute.css";
+import Navbar from "./_components/navbar";
 
 export default function InstitutionsPage() {
   return (
-    <div className="bg-[#0F1115] text-white">
+    <div className="bg-[#0F1115] text-white w-full">
+      <Navbar />
       <Hero />
       <ProgramOverview />
       <GenAISection />
