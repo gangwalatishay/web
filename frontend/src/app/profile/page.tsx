@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import ProfileSidebar from "./_components/sidebar";
 import ProfileHeader from "./_components/profile-header";
@@ -13,28 +14,52 @@ export default function ProfilePage() {
 
   const navigate = useNavigate();
 
-  // ✅ Lazy initialization (no useEffect needed)
-  const [user] = useState<User | null>(() => {
-    try {
-      const storedUser = localStorage.getItem("currentUser");
-
-      if (!storedUser) {
-        navigate("/login");
-        return null;
-      }
-
-      return JSON.parse(storedUser);
-    } catch {
-      return null;
-    }
-  });
-
+  const [user, setUser] = useState<User | null>(null);
   const [activeTab, setActiveTab] = useState("dashboard");
+  const [loading, setLoading] = useState(true);
+
+  // ✅ Fetch user from backend
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          navigate("/login");
+          return;
+        }
+
+        const res = await axios.get(
+          "http://127.0.0.1:5000/api/auth/me",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        );
+
+        setUser(res.data.user);
+
+      } catch (err) {
+        console.error("Fetch user error:", err);
+        navigate("/login");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, [navigate]);
+
+  // ✅ Loading state
+  if (loading) {
+    return <div className="text-white p-10">Loading...</div>;
+  }
 
   if (!user) return null;
 
   return (
-    <div className="flex min-h-screen bg-[#0F1115] text-white">
+    <div className="flex min-h-screen w-full bg-[#0F1115] text-white">
 
       <ProfileSidebar
         role={user.role}

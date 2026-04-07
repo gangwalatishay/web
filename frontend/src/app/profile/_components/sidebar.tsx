@@ -1,3 +1,4 @@
+import { Logo } from "@/components/logo";
 import {
   User,
   BookOpen,
@@ -15,12 +16,10 @@ export default function ProfileSidebar({
   setActiveTab: (tab: string) => void;
 }) {
   return (
-    <aside className="w-72 bg-[#0B0D12] border-r border-gray-800 p-6 flex flex-col">
+    <aside className="w-72 bg-[#18181B] border-r border-gray-800 p-6 flex flex-col">
 
       {/* LOGO */}
-      <h2 className="text-xl font-bold mb-10">
-        <span className="text-blue-500">ALGO</span>ASCEND
-      </h2>
+      <Logo />
 
       {/* NAV */}
       <nav className="flex flex-col gap-3 text-sm">

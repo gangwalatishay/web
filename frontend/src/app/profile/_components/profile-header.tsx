@@ -5,7 +5,7 @@ export default function ProfileHeader({ user }: { user: User }) {
     <div className="bg-[#18181B] border border-gray-800 rounded-3xl p-6 flex items-center justify-between">
 
       <div className="flex items-center gap-4">
-        <div className="w-14 h-14 rounded-full bg-blue-600 flex items-center justify-center text-xl font-bold">
+        <div className="w-14 h-14 rounded-full bg-[#3B82F6] flex items-center justify-center text-xl font-bold">
           {user.name?.charAt(0) || "U"}
         </div>
 
@@ -15,8 +15,8 @@ export default function ProfileHeader({ user }: { user: User }) {
         </div>
       </div>
 
-      <div className="text-sm text-gray-400 capitalize">
-        Role: <span className="text-white">{user.role}</span>
+      <div className="text-sm text-muted-foreground capitalize">
+        Role: <span className="text-white bg-[#3B82F6] p-2 rounded-lg">{user.role}</span>
       </div>
     </div>
   );
