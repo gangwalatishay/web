@@ -24,7 +24,7 @@ export default function Navbar() {
         scrolled && "border-b shadow-sm"
       )}
     >
-      <div className="flex flex-row items-center justify-between pl-20 pr-40">
+      <div className="flex flex-row items-center justify-between px-20">
         {/* Logo */}
         <Logo />
         {/* Navigation Menu */}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -24,7 +25,7 @@ import axios from "axios";
 type User = {
   name: string;
   email: string;
-  role: "admin" | "user" | "student" | "professional";
+  role: "admin" | "student" | "professional";
   id?: string;
   _id?: string;
 };
@@ -121,7 +122,7 @@ const ActionButton = () => {
               )}
             </div>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-52 bg-zinc-900 border-zinc-800">
+          <DropdownMenuContent className="w-52 bg-zinc-900 border-zinc-800 relative right-5">
             <DropdownMenuLabel className="px-3 py-2 border-b border-zinc-800">
               <p className="text-white text-sm font-medium truncate">
                 {user.name}
@@ -149,10 +150,6 @@ const ActionButton = () => {
                     Profile
                   </>
                 )}
-              </DropdownMenuItem>
-              <DropdownMenuItem className="flex items-center gap-2 cursor-pointer text-zinc-300 hover:text-white focus:text-white focus:bg-zinc-800 rounded-lg">
-                <RiVipCrownLine className="size-5 text-[#3B82F6]" />
-                Subscription
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="flex items-center gap-2 cursor-pointer text-zinc-300 hover:text-white focus:text-white focus:bg-zinc-800 rounded-lg"
