@@ -107,7 +107,7 @@ const ActionButton = () => {
         <Button
           asChild
           size="lg"
-          className="bg-[#3B82F6] text-white font-medium hover:bg-[#2563EB] hover:text-white self-center justify-self-end mr-12 px-6">
+          className="bg-[#3B82F6] text-white font-medium hover:bg-[#3B82F6] hover:text-white self-center justify-self-end mr-12 px-6">
           <Link to="/login">Login</Link>
         </Button>
       )}

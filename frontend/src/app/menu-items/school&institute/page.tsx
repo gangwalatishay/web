@@ -4,7 +4,6 @@ import GenAISection from "./_components/GenAISection";
 import PythonSection from "./_components/PythonSection";
 import CollaborationForm from "./_components/CollaborationForm";
 
-import "../../../styles/student&instute.css";
 import Navbar from "./_components/navbar";
 
 export default function InstitutionsPage() {
