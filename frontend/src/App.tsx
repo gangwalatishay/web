@@ -6,15 +6,18 @@ import {
 import Page from "./app/page";
 
 import Courses from "./app/menu-items/courses/courses";
+import CourseDetail from "./app/menu-items/courses/_components/course-detail";
 import Gallery from "./app/menu-items/gallery/gallerypage";
+import About from "./app/menu-items/about-us/about";
 
 import ProfilePage from "./app/profile/page";
-import CourseDetail from "./app/menu-items/courses/_components/course-detail";
 import Login from "./auth/Login";
 import Signup from "./auth/Signup";
 import ForgotPassword from "./auth/ForgotPassword";
-import About from "./app/menu-items/about-us/about";
+
 import InstitutionsPage from "./app/menu-items/school&institute/page";
+
+import LMS from "./app/LMS/page";
 
 export default function App() {
   return (
@@ -34,6 +37,8 @@ export default function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
 
           <Route path="/institutions" element={<InstitutionsPage />} />
+
+          <Route path="/lms" element={<LMS />} />
         </Routes>
       </div>
     </div>
