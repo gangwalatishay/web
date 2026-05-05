@@ -1,45 +1,68 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage
+} from "@/components/ui/avatar";
 
-/**
- * WelcomeBanner Component
- * Renders the top greeting section of the dashboard with user name,
- * overall progress, and functional daily streak tracking.
- */
+import { getCurrentUser } from "@/api/getUser";
+
+// ✅ Proper Type
+type User = {
+  name: string;
+  avatar?: string;
+  progress?: number;
+  weeksLeft?: number;
+};
+
 export default function WelcomeBanner() {
+  const [user, setUser] = useState<User | null>(null);
   const [streak, setStreak] = useState(1);
 
   useEffect(() => {
-    const today = new Date();
-    const todayString = today.toDateString();
+    const init = async () => {
+      // 🔹 Fetch user
+      const data = await getCurrentUser();
+      setUser(data);
 
-    const lastVisit = localStorage.getItem("lastVisitDate");
-    const savedStreak = Number(localStorage.getItem("streakCount")) || 1;
+      // 🔹 Streak logic (computed first)
+      const today = new Date();
+      const todayString = today.toDateString();
 
-    if (!lastVisit) {
+      const lastVisit = localStorage.getItem("lastVisitDate");
+      const savedStreak =
+        Number(localStorage.getItem("streakCount")) || 1;
+
+      let newStreak = 1;
+
+      if (!lastVisit) {
+        newStreak = 1;
+      } else {
+        const lastVisitDate = new Date(lastVisit);
+        const diffTime =
+          today.getTime() - lastVisitDate.getTime();
+        const diffDays = Math.floor(
+          diffTime / (1000 * 60 * 60 * 24)
+        );
+
+        if (diffDays === 0) {
+          newStreak = savedStreak;
+        } else if (diffDays === 1) {
+          newStreak = savedStreak + 1;
+        } else {
+          newStreak = 1;
+        }
+      }
+
+      // 🔹 Save + update once
+      localStorage.setItem("streakCount", newStreak.toString());
       localStorage.setItem("lastVisitDate", todayString);
-      localStorage.setItem("streakCount", "1");
-      setStreak(1);
-      return;
-    }
 
-    const lastVisitDate = new Date(lastVisit);
-    const diffTime = today.getTime() - lastVisitDate.getTime();
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      setStreak(newStreak);
+    };
 
-    if (diffDays === 0) {
-      setStreak(savedStreak);
-    } else if (diffDays === 1) {
-      const updatedStreak = savedStreak + 1;
-      localStorage.setItem("streakCount", updatedStreak.toString());
-      localStorage.setItem("lastVisitDate", todayString);
-      setStreak(updatedStreak);
-    } else {
-      localStorage.setItem("streakCount", "1");
-      localStorage.setItem("lastVisitDate", todayString);
-      setStreak(1);
-    }
+    init();
   }, []);
 
   return (
@@ -56,22 +79,30 @@ export default function WelcomeBanner() {
           <div>
             <h1 className="text-3xl font-bold md:text-4xl">
               Welcome <br /> back, <br />
-              <span className="text-blue-400"> Alex Johnson</span> 👋
+              <span className="text-blue-400">
+                {user?.name || "User"}
+              </span>{" "}
+              👋
             </h1>
+
             <p className="mt-2 text-gray-400">
-              You're 68% through your program. 3 more weeks to graduation!
+              You're {user?.progress || 0}% through your program.{" "}
+              {user?.weeksLeft || 0} more weeks to graduation!
             </p>
           </div>
 
           <div className="max-w-md space-y-2">
             <div className="flex justify-between text-sm font-medium">
               <span>Overall Progress</span>
-              <span className="text-blue-400">68%</span>
+              <span className="text-blue-400">
+                {user?.progress || 0}%
+              </span>
             </div>
+
             <div className="h-2 bg-gray-700/50 rounded-full overflow-hidden">
               <div
                 className="h-full bg-blue-500 rounded-full"
-                style={{ width: "68%" }}
+                style={{ width: `${user?.progress || 0}%` }}
               ></div>
             </div>
           </div>
@@ -80,25 +111,28 @@ export default function WelcomeBanner() {
         <div className="flex flex-col items-center gap-6">
           <div className="relative">
             <div className="absolute inset-0 rounded-full bg-blue-500/20 blur-md"></div>
+
             <Avatar className="h-24 w-24 border-2 border-blue-500/50 shadow-2xl transition-transform hover:scale-105">
               <AvatarImage
-                src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&h=200&fit=crop"
-                alt="User Profile"
+                src={
+                  user?.avatar ||
+                  "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200"
+                }
               />
-              <AvatarFallback>AJ</AvatarFallback>
+              <AvatarFallback>
+                {user?.name?.slice(0, 2) || "U"}
+              </AvatarFallback>
             </Avatar>
           </div>
 
           <div className="flex flex-col items-center gap-3">
-            {/* On Track Badge */}
-            <div className="flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-5 py-2 text-sm font-medium text-emerald-400 shadow-sm backdrop-blur-sm">
+            <div className="flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-5 py-2 text-sm font-medium text-emerald-400">
               <span className="h-2 w-2 rounded-full bg-emerald-400"></span>
               <span>On track</span>
-              <span className="text-emerald-300">✔</span>
+              <span>✔</span>
             </div>
 
-            {/* Streak Badge */}
-            <div className="flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-5 py-2 text-sm font-medium text-orange-300 shadow-sm backdrop-blur-sm">
+            <div className="flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-5 py-2 text-sm font-medium text-orange-300">
               <span>🔥</span>
               <span>{streak}-day streak</span>
             </div>
