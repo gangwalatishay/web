@@ -1,7 +1,4 @@
-import {
-  Route,
-  Routes
-} from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import Page from "./app/page";
 
@@ -17,15 +14,21 @@ import ForgotPassword from "./auth/ForgotPassword";
 
 import InstitutionsPage from "./app/menu-items/school&institute/page";
 
-import LMS from "./app/LMS/page";
+// ✅ LMS imports
+import LMSLayout from "./app/LMS/layout";
+import DashboardPage from "./app/LMS/_components/dashboard/page";
+import AssignmentsPage from "./app/LMS/_components/assignments/page";
+import LiveClassesPage from "./app/LMS/_components/liveClasses/page";
+import ProgressPage from "./app/LMS/_components/progress/page";
 
 export default function App() {
   return (
     <div className="min-h-screen bg-[#0F1115] text-white">
       <div className="flex flex-col items-center justify-center md:justify-start">
         <Routes>
-          <Route path="/" element={<Page />} />
 
+          {/* Public Routes */}
+          <Route path="/" element={<Page />} />
           <Route path="/courses" element={<Courses />} />
           <Route path="/course/:courseId" element={<CourseDetail />} />
           <Route path="/gallery" element={<Gallery />} />
@@ -38,7 +41,19 @@ export default function App() {
 
           <Route path="/institutions" element={<InstitutionsPage />} />
 
-          <Route path="/lms" element={<LMS />} />
+          {/* ✅ LMS Nested Routing */}
+          <Route path="/lms" element={<LMSLayout />}>
+
+            {/* Default → /lms */}
+            <Route index element={<DashboardPage />} />
+
+            {/* Sub Pages */}
+            <Route path="assignments" element={<AssignmentsPage />} />
+            <Route path="liveClasses" element={<LiveClassesPage />} />
+            <Route path="progress" element={<ProgressPage />} />
+
+          </Route>
+
         </Routes>
       </div>
     </div>
